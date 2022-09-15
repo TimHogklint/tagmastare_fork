@@ -37,4 +37,4 @@ const server = app.listen(port, () =>
 
 const app = express();
 app.get("/api/hej", (req, res) => res.json({ ok: true }));
-app.listen(8080, () => console.log("Server listening on port 8080"));
+app.listen(8000, () => console.log("Server listening on port 8080"));
