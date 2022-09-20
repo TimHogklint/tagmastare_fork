@@ -1,0 +1,89 @@
+.main {
+  margin: 10px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100px;
+  background-color: bisque;
+  margin: 25px;
+  width: 85%;
+  height: 400px;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  flex: 1;
+}
+
+.ticketamounts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.ticketcontainer {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: aqua;
+  flex: 1;
+
+}
+
+.ticketbuttons {
+  align-items: flex-start;
+  display: inline-block;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+}
+
+.srbutton {
+  background-color: rgba(197, 187, 102, 0.9);
+  border: none;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 25px;
+}
+
+.searchfield {
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 20px;
+  width: 50%;
+  padding: 15px;
+  outline: 0;
+  background-color: #f5f5f5;
+}
+
+.ticketbutton {
+  display: inline-block;
+}
+
+.plusbutton {
+  background-color: rgba(197, 187, 102, 0.9);
+  border: none;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 2px;
+  border-radius: 100%;
+}
