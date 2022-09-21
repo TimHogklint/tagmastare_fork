@@ -7,16 +7,15 @@ export default function Booking() {
         </div>
       </div>
       <div className="container">
-
         <div className="content">
 
           <div className="input">
             <div className="searchText">
               <p>Sök Resa</p>
             </div>
-            <input class="searchfield" type="search" placeholder="Till"></input>
-            <input class="searchfield" type="search" placeholder="Från"></input>
-            <input type="date"></input>
+            <input className="searchfield" type="search" placeholder="Till"></input>
+            <input className="searchfield" type="search" placeholder="Från"></input>
+            <input className="datefield" type="date"></input>
             + lägg till återresa
           </div>
           <div className="ticketcontainer">

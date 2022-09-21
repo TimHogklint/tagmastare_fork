@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 .main {
   margin: 10px;
+  color: black;
+  font-family: 'Inter';
 }
 
 .container {
@@ -7,11 +11,15 @@
   justify-content: center;
 }
 
+.goback {
+  color: black;
+}
+
 .content {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 100px;
-  background-color: bisque;
   margin: 25px;
   width: 85%;
   height: 400px;
@@ -21,6 +29,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
   height: 100%;
   flex: 1;
 }
@@ -29,13 +38,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  align-items: start;
+  align-items: center;
 }
 
 .ticketcontainer {
   display: flex;
-  justify-content: space-evenly;
-  background-color: aqua;
+  justify-content: center;
   flex: 1;
 
 }
@@ -44,6 +52,7 @@
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  margin-left: 25px;
 }
 
 .button {
@@ -67,34 +76,54 @@
 .searchfield {
   border: 1px solid grey;
   border-radius: 5px;
-  height: 20px;
+  height: 25px;
   width: 50%;
   padding: 15px;
   outline: 0;
   background-color: #f5f5f5;
+  font-family: 'Inter';
 }
 
 
 .plusbutton {
   background-color: rgba(197, 187, 102, 0.9);
   border: none;
-  padding: 10px;
+  padding: 10px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 2px;
+  font-size: 20px;
+  margin: 5px;
   border-radius: 100%;
+  font-family: 'Inter';
+}
+
+.plusbutton :hover {
+  cursor: pointer;
+
 }
 
 .minusbutton {
   background-color: rgba(197, 187, 102, 0.9);
   border: none;
-  padding: 10px;
+  padding: 10px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 2px;
+  font-size: 20px;
+  margin: 5px;
   border-radius: 100%;
+  font-family: 'Inter';
+}
+
+
+input[type="date"] {
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 25px;
+  width: 50%;
+  padding: 15px;
+  outline: 0;
+  background-color: #f5f5f5;
+  font-family: 'Inter';
 }
