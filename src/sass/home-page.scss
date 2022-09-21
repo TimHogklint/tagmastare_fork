@@ -4,11 +4,18 @@
   box-sizing: border-box;
 }
 
+body {
+  margin: auto;
+}
+
 .home-page {
   background-image: url("../images/background.jpg");
   background-size: cover;
   background-attachment: fixed;
-  margin: auto;
+  background-repeat: no-repeat;
+  background-size: auto;
+  height: 900px;
+  opacity: 0.9;
 }
 
 Button {
