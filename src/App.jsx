@@ -9,20 +9,12 @@ import HomePage from "./pages/HomePage"
 import TimeTable from "./pages/TimeTable"
 import LoggIn from "./pages/LoggIn"
 import Booking from "./pages/Booking"
+import Search from "./pages/Search"
 
 //Import connection to design
 //All files created in mapp sass should be imported in main.scss
 import "./sass/main.scss"
 
-
-//Commenterar bort det för att kunna testa DB
-/* function App() {
-  return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
-  );
-} */
 
 //Test DB
 export default function App() {
@@ -43,7 +35,8 @@ export default function App() {
           <Route path="/" element={ <HomePage /> }></Route>
           <Route path="/time-table" element={ <TimeTable /> }></Route>
           <Route path="/logg-in" element={ <LoggIn /> }></Route>
-          <Route path="/booking" element ={<Booking/>}></Route>
+          <Route path="/booking" element={ <Booking /> }></Route>
+          <Route path="/search" element ={<Search/>}></Route>
         </Routes>
        
       </BrowserRouter>

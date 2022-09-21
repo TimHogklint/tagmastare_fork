@@ -1,3 +1,29 @@
-.color-red {
-  color: red;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+.home-page {
+  background-image: url("../images/background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  margin: auto;
+}
+
+Button {
+  color: black;
+  background-color: #c5bb66;
+  align-items: center;
+  border-radius: 40px;
+  border-color: #c5bb66;
+  font-size: 40px;
+  font-family: "Inter";
+  font-weight: lighter;
+  padding: 10px 40px 10px 40px;
+}
+
+.home-page-button {
+  margin-top: 300px;
+  text-align: center;
 }
