@@ -35,10 +35,10 @@ export default function Booking() {
               </div>
             </div>
             <div className="ticketbuttons">
-              <div className="ticketbutton vuxen"><button className="plusbutton">+</button><p>0</p><button className="minusbutton">-</button></div>
-              <div className="ticketbutton bu"><button className="plusbutton">+</button><p>0</p><button className="minusbutton">-</button></div>
-              <div className="ticketbutton student"><button className="plusbutton">+</button><p>0</p><button className="minusbutton">-</button></div>
-              <div className="ticketbutton pensioner"><button className="plusbutton">+</button><p>0</p><button className="minusbutton">-</button></div>
+              <div className="ticketbutton vuxen"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
+              <div className="ticketbutton bu"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
+              <div className="ticketbutton student"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
+              <div className="ticketbutton pensioner"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
             </div>
           </div>
         </div>
