@@ -10,6 +10,7 @@ import TimeTable from "./pages/TimeTable"
 import LoggIn from "./pages/LoggIn"
 import Booking from "./pages/Booking"
 import Search from "./pages/Search"
+import Ticket from "./pages/Ticket"
 
 //Import connection to design
 //All files created in mapp sass should be imported in main.scss
@@ -36,7 +37,8 @@ export default function App() {
           <Route path="/time-table" element={ <TimeTable /> }></Route>
           <Route path="/logg-in" element={ <LoggIn /> }></Route>
           <Route path="/booking" element={ <Booking /> }></Route>
-          <Route path="/search" element ={<Search/>}></Route>
+          <Route path="/search" element={ <Search /> }></Route>
+          <Route path="/ticket" element ={<Ticket/>}></Route>
         </Routes>
        
       </BrowserRouter>
