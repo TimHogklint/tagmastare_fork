@@ -1,8 +1,40 @@
-.go-back-header{
-    display: block;
-    box-sizing: border-box;
+.go-back-header 
+{
     border: 3px solid #f50000;
-    padding-left: 1.5em;
+    width: 100%;
+
+    .go-back-header-text {
+    
+            padding-left: 1.5em;
+    
+            width: 100%;
+            left: 21px;
+            top: 26px;
+    
+            font-family: Inter;
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: 0em;
+            text-align: left;
+        }
+}
+
+.page-title-zone {
+    border: 3px solid #ff00b7;
+        width: 100%;
+
+        .page-title-text {
+        
+                height: 50px;
+                padding-left: 4em;
+                font-family: Inter;
+                font-size: 40px;
+                font-weight: 700;
+                line-height: 48px;
+                letter-spacing: 0em;
+                text-align: left;
+            }
 }
 
 .payment-details {
@@ -25,7 +57,7 @@
     letter-spacing: 0em;
     text-align: left;
     height: 50px;
-    width: 25.5em; // defualt
+    width: 450px; 
     border: 1px solid #000000; //1px på figma ser inte likadant ut här ?/ Tim
     border-radius: 1em;
     margin: 0.5em;
@@ -64,15 +96,7 @@
     }
 }
 
-.comfirm-group {
-        box-sizing: border-box;
-        padding-left: 1.5em;
-        width: 100%; // defualt
-        border: 3px solid rgb(94, 0, 245);
-}
-
-// region - card input box
-
+/* Region : Card details box */
 .horizontal-divider{
     position: absolute;
     top: 46px;
@@ -86,6 +110,8 @@
 .cVCDiv {
     position: absolute;
     display: inline-block;
+    border: none;
+    outline: 0px;
 }
 
 .kortnummerDiv {
@@ -95,32 +121,39 @@
     height: 18px;
 }
 
-.kortnummerDiv,
+.kortnummer-input {
+    position: absolute;
+    display: inline-block;
+    height: 18px;
+    width: 200px;
+    left: 39px;
+    top: 14px;
+    border-radius: nullpx;
+    border: none;
+    outline: 0px;
+}
+
 .mMDiv {
     position: absolute;
     display: inline-block;
-height: 18px;
+    height: 18px;
     width: 200px;
     left: -39px;
     top: 14px;
     border-radius: nullpx;
-}
-
-.cVCDiv,
-.mMDiv {
-    top: 57px;
-}
-
-.mMDiv {
     left: 13px;
     width: 116px;
     height: 23px;
+    top: 55px;
+    border: none;
+    outline: 0px;
 }
 
 .cVCDiv {
     left: 161px;
     width: 103px;
     height: 19px;
+    top: 57px;
 }
 
 .vertical-divider {
@@ -146,6 +179,117 @@ height: 18px;
     font-size: 16px;
     color: rgba(0, 0, 0, 0.5);
     font-family: Inter;
+
+    
 }
 
 // endregion - card input box
+
+/* Region : Card type  */
+.mastercard2019Logo1Icon,
+.visa1Icon {
+    position: absolute;
+    top: 12px;
+    left: 402px;
+    width: 39.37px;
+    height: 25px;
+    object-fit: cover;
+}
+
+.mastercard2019Logo1Icon {
+    left: 362px;
+    width: 40px;
+    height: 24.7px;
+}
+
+.kortDiv {
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    display: inline-block;
+    width: 325px;
+    height: 25px;
+    border: none;
+    outline: 0px;
+}
+
+.ellipseIcon {
+    position: absolute;
+    top: 17px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+}
+
+.card-dropdown-box {
+    position: relative;
+    border-radius: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    width: 450px; // defualt
+    height: 50px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.8);
+    font-family: Inter;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+.swish_swishLogo11 {
+    position: absolute;
+    top: 5px;
+    left: 388px;
+    width: 70px;
+    height: 39.38px;
+    object-fit: cover;
+}
+
+.swish_ellipseIcon {
+    position: absolute;
+    top: 15px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+}
+
+.swish_frameDiv {
+    position: relative;
+    border-radius: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    width: 450px;
+    height: 50px;
+    overflow: hidden;
+    margin: 0.5em;
+    padding: 1em;
+
+    .swish_swishInputBox {
+    box-sizing: border-box;
+        font-family: Inter;
+        letter-spacing: 0em;
+        text-align: left;
+        height: 50px;
+        border: none;
+
+        .swishInput{
+            border: none;
+            outline: 0px;
+        }
+    }
+}
+
+.comfirm-group {
+    position: absolute;
+    width: 100%; // defualt
+    border: 3px solid rgb(94, 0, 245);
+    padding: 100px;
+    margin: 0px;
+
+    .comfirm-group-btn{
+    background: #C5BB66;
+    border-radius: 10px;
+    width: 100%;
+    }
+}
