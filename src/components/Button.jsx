@@ -6,8 +6,9 @@ function submit() {
 }
 const Button = (props) => {
   
-    return (
-        <button className="btn-default"
+  return (
+        // Supplying a classname breaks styling.
+        <button className={props.className ?? 'default-btn'}
           onClick={submit}>
           <text className="btn-text">
           {/* Set value of label to change defualt name. */}

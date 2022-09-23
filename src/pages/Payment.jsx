@@ -23,12 +23,13 @@ export default function Payment()
 //   |
 //   *- Phone and Swish are not edible once full sequence been typed.
 //   |
-//   *- CC entry is weird when you select try to edit single letters - feels like it adds letter to the end 
+//   *- CC entry is weird when you select try to edit single letters - feels like it adds letter to the end
 //      instead of where you want to put it :S
 //      |
 //      * Unless editing from last block :S , if you select/drag over replace letter it works.
 //        Its the combination of pressing backspace and inputting a new number.
 
+  
   // General input handler
   const [name, setName] = useState("")
 
@@ -87,7 +88,7 @@ const cardCVC_handleChange = e => {
     
       cc_setCVC(e.target.value.substring(0,3));
   }
-}
+  }
   
   // Handle input of CC
   // Stolen from https://stackoverflow.com/questions/36833366/format-credit-card-number :)
@@ -125,7 +126,8 @@ const cardCVC_handleChange = e => {
   return (
   <div> 
       <div className='go-back-header'>
-        <text className='go-back-header-text' >X Gå tillbaka</text>
+        {/* <text className='go-back-header-text' >X Gå tillbaka</text> */}
+        <Button className="go-back-btn" label='X Gå tillbaka'></Button>
       </div>  
       
       <div className='page-title-zone'>
@@ -134,10 +136,11 @@ const cardCVC_handleChange = e => {
 
       <div className="payment-details">
       <h4>Dina uppgifter</h4>
-      <input id="inputfield" placeholder="Name" value={name} onChange={name_handleChange} />
-      <input id="inputfield" placeholder="Email" />
-      <input id="inputfield" placeholder="Mobil" value={phone_fname} onChange={phone_handleChange} />
+      <input id="inputfield" placeholder="Name" autocomplete="off" value={name} onChange={name_handleChange} />
+      <input id="inputfield" placeholder="Email"autocomplete="off" />
+      <input id="inputfield" placeholder="Mobil"autocomplete="off" value={phone_fname} onChange={phone_handleChange} />
     
+      <div className="creditcard-menu" >
       <h4>Betalsätt</h4>
         
       {/* Region Kort typ - dropdown list ?*/}
@@ -152,14 +155,14 @@ const cardCVC_handleChange = e => {
           <option value="cc-visa">Visa</option>
         </select>
 
-      <div className="swish_ellipseIcon"><Ellipse/></div>
+      <div className="cc_ellipseIcon"><Ellipse/></div>
       </div>
       {/* RegionEnd */}
       
       {/* Region Card - details box*/}
       <div className="cardentry-box">
       <div className="horizontal-divider" />
-      <input className="kortnummer-input" placeholder='Kort' value={cc_fname} onChange={cc_handleChange}></input>
+      <input className="kortnummer-input" placeholder='Kortnummer' value={cc_fname} onChange={cc_handleChange}></input>
       <input className="mMDiv" placeholder='MM/ÅÅ' value={cc_expDate} onChange={cardExpiry_handleChange}></input>
       <input className="cVCDiv" placeholder='CVC' value={cc_CVC} onChange={cardCVC_handleChange}></input>
       <div className="vertical-divider"></div> {/* lineIcon */}
@@ -176,12 +179,17 @@ const cardCVC_handleChange = e => {
       </div>
       {/* RegionEnd */}
         
+
+        </div>
+        
       {/* Exit div of main content div */}
       </div>
 
       {/* Bottom page comfirmation */}
       <div className='comfirm-group'>
-        <Button className="comfirm-group-btn" label="Bekräfta"/>
+          <div className="comfirm-button">
+          <Button label="Bekräfta" />
+          </div>
       </div>
   </div>
   )
