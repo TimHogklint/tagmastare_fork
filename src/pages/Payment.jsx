@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import Button from '../components/Button'
+import Button from '../components/Button';
 
 // Icons
 //
@@ -16,20 +16,6 @@ import { ReactComponent as Ellipse } from '../components/icons/primitives/Ellips
 
 export default function Payment()
 {
-
-// - Cant delete/edit field
-//   |
-//   *- CC_MM/YY - partially to "/" clicking in cause error of multiple "//"s
-//   |
-//   *- Phone and Swish are not edible once full sequence been typed.
-//   |
-//   *- CC entry is weird when you select try to edit single letters - feels like it adds letter to the end
-//      instead of where you want to put it :S
-//      |
-//      * Unless editing from last block :S , if you select/drag over replace letter it works.
-//        Its the combination of pressing backspace and inputting a new number.
-
-  
   // General input handler
   const [name, setName] = useState("")
 
@@ -39,7 +25,7 @@ export default function Payment()
   const [cc_expDate, cc_setExpDate] = useState("")
   const [cc_CVC, cc_setCVC] = useState("")
   //Swish , abit redundant as I have a phone above;
-  const [fname, setFname] = useState("")
+  const [swish_fname, swish_setFname] = useState("")
 
   // Only accept letter, you could go even further and
   // make sure it only allows one space between each sequence. 
@@ -48,20 +34,11 @@ export default function Payment()
 const name_handleChange = e => {
     setName(e.target.value.replace(/[^a-z]/gi, ' '));
 }
-
   // Phone
-const phone_handleChange = e => {
-    
-    // is input a number ? 
-    const re = /^[0-9\b]+$/;
-
-    // much like the creditcard input we do the same here.
-    if (e.target.value === '' || re.test(e.target.value)) {
-      const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
-      phone_setFname(e.target.value.replace(phoneRegex, '($1) $2-$3'));
-    }
+  const phone_handleChange = e => {
+  const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    phone_setFname(formatPhoneNumber(formattedPhoneNumber))
 }
-
 // Basic
 // Editing the field will prodice errors.
 const cardExpiry_handleChange = e => {
@@ -111,18 +88,43 @@ const cardCVC_handleChange = e => {
   }
 
   // In the swish input I use this method to make sure input is valid.
-  const handleChange = e => {
-    
-    // is input a number ? 
-    const re = /^[0-9\b]+$/;
-
-    // much like the creditcard input we do the same here.
-    if (e.target.value === '' || re.test(e.target.value)) {
-            const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
-      setFname(e.target.value.replace(phoneRegex, '($1) $2-$3'));
-    }
+  const swish_handleChange = e => {
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    swish_setFname(formatPhoneNumber(formattedPhoneNumber))
   }
   
+ // Method - send to Utils
+ // Ive gone over a couple of diffrent methods for phone formatting but this is bar none
+ // the best. 
+ // https://tomduffytech.com/how-to-format-phone-number-in-react/
+ // Will put this function in a utils folder later.
+ function formatPhoneNumber(value) {
+  // if input value is falsy eg if the user deletes the input, then just return
+  if (!value) return value;
+
+ // clean the input for any non-digit values.
+  const phoneNumber = value.replace(/[^\d]/g, "");
+
+ // phoneNumberLength is used to know when to apply our formatting for the phone number
+ const phoneNumberLength = phoneNumber.length;
+
+ // we need to return the value with no formatting if its less then four digits
+  // this is to avoid weird behavior that occurs if you  format the area code to early
+   if (phoneNumberLength < 4) return phoneNumber;
+
+  // if phoneNumberLength is greater than 4 and less the 7 we start to return
+ // the formatted number
+  if (phoneNumberLength < 7) {
+     return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+  }
+  // finally, if the phoneNumberLength is greater then seven, we add the last
+  // bit of formatting and return it.
+  return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+   3,
+    6
+ )}-${phoneNumber.slice(6, 10)}`;
+}
+
   return (
   <div> 
       <div className='go-back-header'>
@@ -138,7 +140,7 @@ const cardCVC_handleChange = e => {
       <h4>Dina uppgifter</h4>
       <input id="inputfield" placeholder="Name" autocomplete="off" value={name} onChange={name_handleChange} />
       <input id="inputfield" placeholder="Email"autocomplete="off" />
-      <input id="inputfield" placeholder="Mobil"autocomplete="off" value={phone_fname} onChange={phone_handleChange} />
+      <input id="inputfield" placeholder="Mobil"autocomplete="off" onChange={(e) => phone_handleChange(e)} value={phone_fname}/>
     
       <div className="creditcard-menu" >
       <h4>Betalsätt</h4>
@@ -173,7 +175,7 @@ const cardCVC_handleChange = e => {
       <div className="swish_frameDiv">
       <div className="swish_swishLogo11"><SwishIc/></div>
           <div className="swish_swishInputBox">
-            <input className='swishInput' placeholder='Swish' type="text" maxLength="10" value={fname} onChange={handleChange}></input>
+            <input className='swishInput' placeholder='Swish' onChange={(e) => swish_handleChange(e)} value={swish_fname}></input>
           </div>
       <div className="swish_ellipseIcon"><Ellipse/></div>
       </div>
