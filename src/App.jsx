@@ -49,7 +49,6 @@ export default function App() {
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/time-table" element={<TimeTable />}></Route>
           <Route path="/logg-in" element={<LoggIn />}></Route>
-          <Route path="/booking" element={<Booking />}></Route>
           <Route path="/search" element={<Search />}></Route>
           <Route path="/ticket" element={<Ticket />}></Route>
           <Route path="/booking" element={<Booking />}></Route>
