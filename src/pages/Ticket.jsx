@@ -1,4 +1,4 @@
-/*import React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from '../components/bootstrap-components'
 import ticket from '../images/ticket.png';
@@ -73,4 +73,4 @@ export default function Ticket() {
       </div>
     </div>
   );
-}*/
+}
