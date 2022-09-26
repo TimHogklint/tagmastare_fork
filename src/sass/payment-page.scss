@@ -1,0 +1,303 @@
+.go-back-header {
+    // border: 3px solid #f50000;
+    width: 100%;
+    .go-back-btn {
+        border: 0px;
+        background-color: rgba(0, 0, 0, 0);
+        width: 150px;
+        height: 50px;
+
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+    }
+}
+
+.page-title-zone {
+    // border: 3px solid #ff00b7;
+    width: 100%;
+    .page-title-text {
+        height: 50px;
+        padding-left: 4.6em; // works full screen but needs to not go beyond - Dina uppgifter in small res
+        font-family: Inter;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 48px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+}
+
+.payment-details {
+    // border: 3px solid green;
+    justify-content: center;
+    align-items: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px; // fixed content box for precisison inside - good / bad ?
+
+    #inputfield {
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        font-family: Inter;
+        line-height: 19px;
+        letter-spacing: 0em;
+        text-align: left;
+        height: 50px;
+        width: 450px;
+
+        border: 1px solid #000000; //1px på figma ser inte likadant ut här ?/ Tim
+        border-radius: 1em;
+        margin: 0.5em;
+        padding: 1em;
+    }
+
+    .cardentry-box {
+        position: relative;
+        border-radius: 10px;
+        border: 1px solid #000;
+        left: 16%;
+        width: 297px;
+        height: 91px;
+        overflow: hidden;
+        text-align: center;
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.5);
+        font-family: Inter;
+    }
+}
+
+#inputfield-card {
+    box-sizing: border-box;
+    font-family: Inter;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 50px;
+    width: 25.5em; // defualt
+    border: 1px solid #000000; //1px på figma ser inte likadant ut här ?/ Tim
+    border-radius: 1em;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+#credit-entry {
+    box-sizing: border-box;
+    font-family: Inter;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 100px;
+    width: 25.5em; // defualt
+    border-radius: 1em;
+    margin: 0.5em;
+    padding: 1em;
+
+    @media (min-width: 90em) {
+        display: block;
+    }
+}
+
+/* Region : Card details box */
+.horizontal-divider {
+    position: absolute;
+    top: 46px;
+    left: 50%;
+    border-right: 1px solid #000;
+    box-sizing: border-box;
+    width: 1px;
+    height: 100%;
+}
+
+.cVCDiv {
+    position: absolute;
+    display: inline-block;
+    border: none;
+    outline: 0px;
+}
+
+.cc_ellipseIcon {
+    position: absolute;
+    top: 15px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+}
+
+.kortnummer-input {
+    text-align: center;
+    padding: 0px;
+    border-radius: nullpx;
+    border: none;
+    outline: 0px;
+    position: absolute;
+    display: inline-block;
+    top: 14px;
+    left: 10px;
+    width: 270px;
+    border-radius: nullpx;
+
+    &::placeholder {
+        text-align: left;
+    }
+}
+
+.mMDiv {
+    text-align: center;
+    position: absolute;
+    display: inline-block;
+    height: 18px;
+    width: 200px;
+    left: -39px;
+    top: 14px;
+    border-radius: nullpx;
+    left: 13px;
+    width: 116px;
+    height: 23px;
+    top: 55px;
+    border: none;
+    outline: 0px;
+}
+
+.cVCDiv {
+    text-align: center;
+    left: 161px;
+    width: 103px;
+    height: 19px;
+    top: 57px;
+}
+
+.vertical-divider {
+    position: block;
+    border-top: 1px solid rgb(0, 0, 0);
+    margin: 45.5px;
+    left: 100%;
+    height: 1px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+// endregion - card input box
+
+/* Region : Card type  */
+.mastercard2019Logo1Icon,
+.visa1Icon {
+    position: absolute;
+    top: 12px;
+    left: 402px;
+    width: 39.37px;
+    height: 25px;
+    object-fit: cover;
+}
+
+.mastercard2019Logo1Icon {
+    left: 362px;
+    width: 40px;
+    height: 24.7px;
+}
+
+.kortDiv {
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    display: inline-block;
+    width: 325px;
+    height: 25px;
+    border: none;
+    outline: 0px;
+}
+
+.ellipseIcon {
+    position: absolute;
+    top: 17px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+}
+
+.creditcard-menu {
+    // border: 3px solid rgb(255, 9, 9);
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+}
+
+.card-dropdown-box {
+    position: relative;
+    border-radius: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    width: 450px; // defualt
+    height: 50px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.8);
+    font-family: Inter;
+    margin: 0.5em;
+    padding: 1em;
+}
+
+.swish_swishLogo11 {
+    position: absolute;
+    top: 5px;
+    left: 388px;
+    width: 70px;
+    height: 39.38px;
+    object-fit: cover;
+}
+
+.swish_ellipseIcon {
+    position: absolute;
+    top: 15px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+}
+
+
+
+.swish_frameDiv {
+    position: relative;
+    border-radius: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    width: 450px;
+    height: 50px;
+    overflow: hidden;
+    margin: 0.5em;
+    padding: 1em;
+
+    .swish_swishInputBox {
+        box-sizing: border-box;
+        font-family: Inter;
+        letter-spacing: 0em;
+        text-align: left;
+        height: 50px;
+        border: none;
+
+        .swishInput {
+            border: none;
+            outline: 0px;
+        }
+    }
+}
+
+.comfirm-group {
+    // border: 3px solid rgb(94, 0, 245);
+    box-sizing: border-box;
+    width: 100%; // defualt
+    height: 200px;
+    margin: 0px;
+    padding: 65px;
+    .comfirm-button {
+        // border: 3px solid #f50000;
+        justify-content: center;
+        align-items: center;
+        padding-left: 57%;
+    }
+}
