@@ -7,10 +7,11 @@ export default function GetTicket() {
       padding: '.7%',
       paddingLeft: "4%",
       paddingRight:"4%",
-      marginTop: '10%',
-      marginBottom: '2.5%',
-      marginLeft: "41%",
-       marginRight: "80%",
+      marginTop: '15%',
+      marginBottom: '2.8%',
+      marginLeft: "40%",
+      marginRight: "80%",
+       
     
      
    
@@ -32,12 +33,13 @@ export default function GetTicket() {
         />
         <center>
          <div className='btn'>
-          <Button className ='getticket'
+          <Button className ='getticketbtn'
           
           >
           Hämta Biljett
           </Button>
-        </div></center>
+          </div>
+        </center>
             </div>
       </div>
   )

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-/*.login-container,
+.login-container,
 .register-container {
   display: flex;
   flex-direction: column;
@@ -32,16 +32,21 @@
   color: black;
   float: left;
 }
-.getticket{
-  font-size: 25px;
+.getticketbtn{
+  font-size: 19px;
   margin-left: 23%;
   text-align: center;
+  color:black;
+  padding: 10px 40px 10px 40px;
+  align-items: center;
+  margin-left: 24.5%;
+  margin-right: auto;
 
 }
 h3{
   text-align: center;
   
 }
-*/
+
 
 
