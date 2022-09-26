@@ -11,11 +11,20 @@ import LoggIn from "./pages/LoggIn"
 import Booking from "./pages/Booking"
 import Search from "./pages/Search"
 import Ticket from "./pages/Ticket"
+import Payment from "./pages/Payment"
 
 //Import connection to design
 //All files created in mapp sass should be imported in main.scss
 import "./sass/main.scss"
 
+//Commenterar bort det för att kunna testa DB
+/* function App() {
+  return (
+    <div className="App">
+      <h1>Hello World</h1>
+    </div>
+  );
+} */
 
 //Test DB
 export default function App() {
@@ -39,12 +48,13 @@ export default function App() {
           <Route path="/booking" element={ <Booking /> }></Route>
           <Route path="/search" element={ <Search /> }></Route>
           <Route path="/ticket" element ={<Ticket/>}></Route>
+          <Route path="/booking" element={<Booking />}></Route>
+          <Route path="/payment" element ={<Payment/>}></Route>
         </Routes>
        
       </BrowserRouter>
     </main>
   );
-
 }
 
 
