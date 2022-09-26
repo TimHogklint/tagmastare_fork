@@ -11,10 +11,14 @@ import LoggIn from "./pages/LoggIn"
 import Booking from "./pages/Booking"
 import Search from "./pages/Search"
 import Ticket from "./pages/Ticket"
+import Register from "./pages/Register"
+import GetTicket from "./pages/GetTicket"
+
 
 //Import connection to design
 //All files created in mapp sass should be imported in main.scss
 import "./sass/main.scss"
+
 
 
 //Test DB
@@ -38,7 +42,11 @@ export default function App() {
           <Route path="/logg-in" element={ <LoggIn /> }></Route>
           <Route path="/booking" element={ <Booking /> }></Route>
           <Route path="/search" element={ <Search /> }></Route>
-          <Route path="/ticket" element ={<Ticket/>}></Route>
+          <Route path="/ticket" element={<Ticket />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/get-ticket" element={<GetTicket />}></Route>
+        
+
         </Routes>
        
       </BrowserRouter>
