@@ -1,4 +1,4 @@
-/*import React from 'react';
+import React from 'react';
 import { Button } from '../components/bootstrap-components'
 import { Link } from "react-router-dom";
 
@@ -120,4 +120,4 @@ export default function Register() {
       </div>
       </div>
   );
-}*/
+}
