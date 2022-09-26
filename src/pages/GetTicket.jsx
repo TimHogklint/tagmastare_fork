@@ -34,7 +34,7 @@ export default function GetTicket() {
         />
         <center>
          <div className='btn'>
-          <Button className ='getticketbtn'
+          <Button className ='get-ticket-btn'
           
           >
           Hämta Biljett

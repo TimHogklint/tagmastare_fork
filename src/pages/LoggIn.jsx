@@ -54,7 +54,7 @@ export default function LoggIn() {
           </div>
         </form>
         <div className='btn'>
-          <Button className='loginbtn'
+          <Button className='login-btn'
           >
           Logga in
           </Button>

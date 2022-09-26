@@ -55,7 +55,7 @@ export default function Ticket() {
           </div>
         </form>
         <div className='btn'>
-          <Button className='loginbtn'
+          <Button className='login-btn'
           >
             Logga in
           </Button>
@@ -63,7 +63,7 @@ export default function Ticket() {
           <h4>Eller?</h4>
 
       <div className='btn'>
-          <Button className="ticketbtn"
+          <Button className="ticket-btn"
           
             >
             <Link className="getTicket-link" to="/get-ticket"> Hämta Biljett</Link>
