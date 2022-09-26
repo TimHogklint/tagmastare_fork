@@ -14,7 +14,7 @@ import Ticket from "./pages/Ticket"
 import Register from "./pages/Register"
 import GetTicket from "./pages/GetTicket"
 import Payment from "./pages/Payment"
-// import QrTestPage from "./pages/QrTestPage" <---
+import Qr from "./pages/QrTestPage"
 
 //Import connection to design
 //All files created in mapp sass should be imported in main.scss
@@ -55,7 +55,7 @@ export default function App() {
           <Route path="/payment" element={<Payment />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/get-ticket" element={<GetTicket />}></Route>
-          {/* <Route parth="/qr" element={<QrTestPage />}></Route> */}
+          <Route parth="/qr" element={<Qr />}></Route>
         </Routes>
 
       </BrowserRouter>
