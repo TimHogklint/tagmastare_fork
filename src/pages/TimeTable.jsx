@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 export default function TimeTable() {
   return (
     <div className="main">
       <div className="navbar">
         <div className="goback">
-          X Gå Tillbaka
+          <Link className="goback-link" to="/">X Gå tillbaka</Link>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ export default function LoggIn() {
 
   return (
     <div>
+      
      <div className="goback">
           <Link className="goback-link" to="/">X Gå tillbaka</Link>
       </div>

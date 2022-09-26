@@ -18,6 +18,7 @@ export default function GetTicket() {
   };
   return (
     <div>
+      
      <div className="goback">
           <Link className="goback-link" to="/ticket">X Gå tillbaka</Link>
       </div>

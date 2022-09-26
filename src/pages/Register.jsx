@@ -11,7 +11,8 @@ export default function Register() {
   };
 
   return (
-     <div>
+    <div>
+      
      <div className="goback">
           <Link className="goback-link" to="/Logg-In">X Gå tillbaka</Link>
       </div>
