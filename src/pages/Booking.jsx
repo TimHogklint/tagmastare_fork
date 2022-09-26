@@ -1,10 +1,13 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 
 export default function Booking() {
   return (
     <div className="main">
       <div className="navbar">
         <div className="goback">
-          X Gå Tillbaka
+          <Link className="goback-link" to="/">X Gå tillbaka</Link>
         </div>
       </div>
       <div className="container">
