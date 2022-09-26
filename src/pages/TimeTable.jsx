@@ -1,7 +1,11 @@
 export default function TimeTable() {
   return (
-    <div>
-      <h1>TimeTable</h1>
+    <div className="main">
+      <div className="navbar">
+        <div className="goback">
+          X Gå Tillbaka
+        </div>
+      </div>
     </div>
   )
 }
