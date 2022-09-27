@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Button from '../components/Button';
 
 // Icons
@@ -127,9 +128,12 @@ const cardCVC_handleChange = e => {
 
   return (
   <div> 
-      <div className='go-back-header'>
-        {/* <text className='go-back-header-text' >X Gå tillbaka</text> */}
+      {/* <div className='go-back-header'>
         <Button className="go-back-btn" label='X Gå tillbaka'></Button>
+      </div>   */}
+
+      <div className='go-back-payment'>
+          <Link className="goback-link" to="/">X Gå tillbaka</Link>
       </div>  
       
       <div className='page-title-zone'>

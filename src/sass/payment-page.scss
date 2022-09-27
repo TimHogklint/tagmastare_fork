@@ -1,18 +1,7 @@
-.go-back-header {
-    // border: 3px solid #f50000;
+.go-back-payment {
     width: 100%;
-    .go-back-btn {
-        border: 0px;
-        background-color: rgba(0, 0, 0, 0);
-        width: 150px;
-        height: 50px;
-
-        font-family: Inter;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 24px;
-        letter-spacing: 0em;
-    }
+    display: flex;
+    align-items: left;
 }
 
 .page-title-zone {
@@ -288,16 +277,8 @@
 }
 
 .comfirm-group {
-    // border: 3px solid rgb(94, 0, 245);
-    box-sizing: border-box;
+    // border: 3px solid rgb(94, 0, 245); debug border.
     width: 100%; // defualt
-    height: 200px;
-    margin: 0px;
     padding: 65px;
-    .comfirm-button {
-        // border: 3px solid #f50000;
-        justify-content: center;
-        align-items: center;
-        padding-left: 57%;
-    }
+    padding-left: 57%;
 }

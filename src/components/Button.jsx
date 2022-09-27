@@ -10,7 +10,7 @@ const Button = (props) => {
         // Supplying a classname breaks styling.
         <button className={props.className ?? 'default-btn'}
           onClick={submit}>
-          <text className="btn-text">
+          <text className='btn-text-content'>
           {/* Set value of label to change defualt name. */}
           {props.label ?? 'Button'}</text>
         </button>
