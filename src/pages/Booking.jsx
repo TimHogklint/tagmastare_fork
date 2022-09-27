@@ -49,6 +49,11 @@ export default function Booking() {
       <div className="button">
         <button className="srbutton">Sök Resa</button>
       </div>
+
+
+              {/* Hej patrik , inför sprint review så lägger jag till en länk till payment sidan här 
+        Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
+        <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
     </div>
 
   )

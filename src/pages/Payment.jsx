@@ -127,13 +127,13 @@ const cardCVC_handleChange = e => {
 }
 
   return (
-  <div> 
+  <div className="main"> 
       {/* <div className='go-back-header'>
         <Button className="go-back-btn" label='X Gå tillbaka'></Button>
       </div>   */}
 
       <div className='go-back-payment'>
-          <Link className="goback-link" to="/">X Gå tillbaka</Link>
+          <Link className="goback-link" to="/Booking">X Gå tillbaka</Link>
       </div>  
       
       <div className='page-title-zone'>
