@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "concurrently \"npm:backend\" \"npm:crastart\"",
-    "backend": "nodemon --watch server server/app",
+    "backend": "nodemon --watch server server/index",
     "crastart": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

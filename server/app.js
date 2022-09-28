@@ -1,40 +1,26 @@
 //import modules
+const path = require('path')
 const express = require("express")
-const { appendFile } = require("fs")
-/*
-const mongoose = require("mongoose")
-const morgan = require("morgan")
+const RestApi = require('./RestApi')
 
-require("dotenv").config()
+module.exports = class Server {
+  app = express();
+  port = 4000;
 
-//app
-const app = express()
+  constructor () {
+    this.start()
+  }
 
-//db
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("DB CONNECTED"))
-.catch((err) => console.log("DB CONNECTION ERROR", err))
+  start() {
+    this.app.use(express.json())
+    new RestApi(this.app)
+    this.serveDist()
+    let message = `Backend listening on port ${this.port}`
+    this.app.listen(this.port, () => console.log(message))
+  }
 
-//middleware
-app.use(morgan("dev"))
-app.use(cors({origin: true, credentials: true}))
+  serveDist() {
+    this.app.use(express.static(path.join(__dirname, '../', 'dist')));
+  }
 
-//routes
-const testRoutes = require('./routes/test')
-app.use("/", testRoutes)
-
-//port
-const port = process.env.PORT || 8080
-
-//listener
-const server = app.listen(port, () =>
-  console.log(`Server is running on port ${port}`)
-)
-*/
-
-const app = express();
-app.get("/api/hej", (req, res) => res.json({ ok: true }));
-app.listen(8000, () => console.log("Server listening on port 8000"));
+}
