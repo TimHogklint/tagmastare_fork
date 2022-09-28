@@ -1,7 +1,14 @@
+import QrCode from "react-qr-code";
+import { Link } from "react-router-dom";
 export default function TimeTable() {
   return (
-    <div>
-      <h1>TimeTable</h1>
+    <div className="main">
+      <div className="navbar">
+        <div className="goback">
+          <Link className="goback-link" to="/">X Gå tillbaka</Link>
+        </div>
+      </div>
+      <QrCode value="sdhasdaskdjhljlajds23123190980asddjlhjads" />
     </div>
   )
 }

@@ -1,0 +1,23 @@
+// Default capsule button styled button.
+.default-btn {
+  height: 48px;
+  width: 175px;
+  border-radius: 10px;
+  background-color:#C5BB66;
+
+  // Prevents the small outline that bleeds over 
+  // from other styles.
+  border: 2px;
+
+  .btn-text-content {
+
+    justify-content: center;
+    align-items: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 400;
+
+    // extemely messy fix ? Unsure if styles are bleeding over or what ? 
+    vertical-align: ceil($number: 65%);
+  }
+}

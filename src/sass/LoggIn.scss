@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.login-container,
+.register-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+}
+.goback {
+  color: black;
+  
+}
+
+.Heading {
+  padding-top: auto;
+}
+
+
+
+.email-login {
+  margin-top: 2%;
+}
+
+.Register-heading {
+  margin-top: 3%;
+  text-align: center;
+  
+}
+
+.Register-heading h4 {
+  font-weight: 400;
+}
+
+.btnn {
+  margin-top: 1%;
+}
+.goback-link {
+  font-size: 15px;
+  text-decoration: none;
+  color: black;
+  float: left;
+  padding-left: 20px;
+  height: fit-content;
+  padding-top: 1%;
+  font-family: "Inter";
+}
+.register-link {
+  font-size: 30px;
+  text-decoration: none;
+  color: black;
+  float: left;
+ 
+}
+.usericon{
+  size: 30px !important ;
+  padding: 30px;
+  margin-top: auto;
+  width: auto;
+}
+.login-btn{
+  font-size: 18px;
+ 
+}
+
+.createaccountbtn{
+  font-size: 20px;
+}
