@@ -10,3 +10,12 @@ Content-Type: application/json
     "email": "gundeman@gmail.com",
     "telephoneNumber": "0764651321"
 }
+###
+
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+    "passWord": "hejsan123",
+    "userID": "6335e21b4de4c07fb59b591c"
+}
