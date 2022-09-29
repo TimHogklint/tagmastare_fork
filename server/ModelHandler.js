@@ -9,7 +9,7 @@ module.exports = class ModelHandler {
   static modelsByName = {}
 
   static async connect() {
-    global.db = this
+    global.db = this;
     await mongoose.connect(require('./secrets/dbCredentials.json'))
     this.getAllModels()
   }

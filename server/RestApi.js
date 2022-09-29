@@ -1,4 +1,6 @@
+const { NavItem } = require('react-bootstrap');
 const db = require('./ModelHandler');
+const Customer = require('./models/-Customer');
 
 module.exports = class RestApi {
 
@@ -54,8 +56,11 @@ module.exports = class RestApi {
     res.json(result);
   }
 
-  async post() {
+  async post(m, id, req, res) {
     // not written yet, but should be quite simple to write
+    let newPost = await m._model(req.body)
+    let result = await newPost.save()
+    res.json(result);
   }
 
   async put() {

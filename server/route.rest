@@ -1,0 +1,11 @@
+GET http://localhost:3000/api/customers
+
+###
+
+POST http://localhost:3000/api/customers
+
+{
+    "customerName": "Arleta",
+    "email": "aderges0@cnet.com",
+    "telephoneNumber": "07664551"
+}
