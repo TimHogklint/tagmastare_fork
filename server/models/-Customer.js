@@ -1,3 +1,5 @@
+const Mongoose = require("mongoose");
+
 db.registerModel({
   model: 'Customer',
   collection: 'customers',

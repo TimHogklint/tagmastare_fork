@@ -1,4 +1,4 @@
-const { Mongoose } = require("mongoose");
+const  Mongoose  = require("mongoose");
 
 db.registerModel({
   model: 'Login',
@@ -7,7 +7,7 @@ db.registerModel({
   readOnly: false,
   schemaProperties: {
     passWord: { type: String, required: true },
-    userID: { type: Mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true }
+    userID: { type: Mongoose.SchemaTypes.ObjectId, ref: 'customers', required: true }
   },
   addHooks(schema) { }
 }) 

@@ -1,4 +1,4 @@
-const { Mongoose } = require("mongoose");
+const  Mongoose  = require("mongoose");
 
 db.registerModel({
   model: 'Ticket',
@@ -6,12 +6,12 @@ db.registerModel({
   apiRoute: 'tickets',
   readOnly: false,
   schemaProperties: {
-    bookingId: { type: Mongoose.Schema.Types.ObjectId, ref: 'TrainRoute', required: true },
-    trainNumber: { type: Mongoose.Schema.Types.ObjectId, ref: 'TrainRoutes', required: true },
-    route: { type: Mongoose.Schema.Types.ObjectId, ref: 'TrainRoutes', required: true },
+    bookingId: { type: Mongoose.SchemaTypes.ObjectId, ref: 'TrainRoute', required: true },
+    trainNumber: { type: Mongoose.SchemaTypes.ObjectId, ref: 'TrainRoutes', required: true },
+    route: { type: Mongoose.SchemaTypes.ObjectId, ref: 'TrainRoutes', required: true },
     departureTime: { type: Date, required: true },
-    departureStation: { type: Mongoose.Schema.Types.ObjectId, ref: 'Stations', required: true },
-    arrivalStation: { type: Mongoose.Schema.Types.ObjectId, ref: 'Stations', required: true },
+    departureStation: { type: Mongoose.SchemaTypes.ObjectId, ref: 'Stations', required: true },
+    arrivalStation: { type: Mongoose.SchemaTypes.ObjectId, ref: 'Stations', required: true },
     ticketPrice: { type: Number, required: true }
 
   },

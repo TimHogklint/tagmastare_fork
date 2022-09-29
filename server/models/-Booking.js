@@ -1,4 +1,5 @@
-const { Mongoose } = require("mongoose");
+const Mongoose = require("mongoose");
+
 
 db.registerModel({
   model: 'Booking',
@@ -7,9 +8,9 @@ db.registerModel({
   readOnly: false,
   schemaProperties: {
     ticketAmount: { type: Number, required: true },
-    routeId: { type: Mongoose.Schema.Types.ObjectId, ref: 'TrainRoute', required: true },
+    routeId: { type: Mongoose.SchemaTypes.ObjectId, ref: 'trainRoute', required: true },
     totalPrice: { type: Number, required: true },
-    customer: { type: Mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
+    customer: { type: Mongoose.SchemaTypes.ObjectId, ref: 'customer', required: true },
   },
   addHooks(schema) { }
 }) 

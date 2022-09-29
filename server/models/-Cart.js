@@ -1,4 +1,4 @@
-const { Mongoose } = require("mongoose");
+const Mongoose = require("mongoose");
 
 db.registerModel({
   model: 'Cart',
@@ -7,7 +7,7 @@ db.registerModel({
   readOnly: false,
   schemaProperties: {
     cartType: { type: Number, required: true },
-    userID: { type: Mongoose.Schema.Types.ObjectId, ref: 'Train', required: true },
+    userId: { type: Mongoose.SchemaTypes.ObjectId},
     AnimalsAllowed: { type: Boolean, required: true }
   },
   addHooks(schema) { }

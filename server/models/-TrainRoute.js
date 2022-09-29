@@ -1,4 +1,4 @@
-const { Mongoose } = require("mongoose");
+const  Mongoose  = require("mongoose");
 
 db.registerModel({
   model: 'TrainRoute',
@@ -7,7 +7,7 @@ db.registerModel({
   readOnly: false,
   schemaProperties: {
     routeName: { type: String, required: true },
-    train: { type: Mongoose.Schema.Types.ObjectId, ref: 'Train', required: true }
+    train: { type: Mongoose.SchemaTypes.ObjectId, ref: 'Train', required: true }
   },
   addHooks(schema) { }
 }) 
