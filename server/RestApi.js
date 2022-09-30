@@ -1,3 +1,5 @@
+const { json } = require('express');
+const { default: mongoose } = require('mongoose');
 const { NavItem } = require('react-bootstrap');
 const db = require('./ModelHandler');
 const Customer = require('./models/-Customer');
@@ -49,11 +51,32 @@ module.exports = class RestApi {
     }
   }
 
-  async get(m, id, req, res) {
-    id = !isNaN(+id) ? id : null;
-    let result = await m._model
-      .find({}, { __v: 0 }).lean();
-    res.json(result);
+  // async get(m, id, req, res) {
+  //   id = !isNaN(+id) ? id : null;
+
+  //   let result = await m._model
+  //     .find({}, { __v: 0 }).lean();
+  //   res.json({message : result});
+  // }
+
+
+  async get(m, id, req, res) 
+  {
+    try
+    {
+      const found = await m._model.find( { _id: '6336bc6b9ada6332dda44930' });
+
+      if(found != null)
+      {
+        res.json(found);
+      }
+      else
+        res.status(404).json({message : err})
+    }
+    catch(err)
+    {
+      res.status(500).json({messsage : err});
+    }
   }
 
   async post(m, id, req, res) {

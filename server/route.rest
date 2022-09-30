@@ -1,3 +1,4 @@
+
 GET http://localhost:3000/api/customers
 
 ###
@@ -6,10 +7,23 @@ POST http://localhost:3000/api/customers
 Content-Type: application/json
 
 {
-    "customerName": "Gunde Svan",
+    "customerName": "Gunde2 Svan",
     "email": "gundeman@gmail.com",
     "telephoneNumber": "0764651321"
 }
+
+###
+
+POST http://localhost:3000/api/customers
+Content-Type: application/json
+
+{
+    
+    "customerName": "Gunde2 Svan",
+    "email": "gundeman@gmail.com",
+    "telephoneNumber": "0764651321"
+}
+
 ###
 
 POST http://localhost:3000/api/login
