@@ -64,7 +64,7 @@ module.exports = class RestApi {
   {
     try
     {
-      const found = await m._model.find( { _id: '6336bc6b9ada6332dda44930' });
+      const found = await m._model.find( { _id: (req.params.id) });
 
       if(found != null)
       {
