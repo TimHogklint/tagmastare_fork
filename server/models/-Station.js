@@ -1,4 +1,4 @@
-const  Mongoose  = require("mongoose");
+const Mongoose = require("mongoose");
 
 db.registerModel({
   model: 'Station',
@@ -8,6 +8,7 @@ db.registerModel({
   schemaProperties: {
     stationName: { type: String, required: true },
     routeId: { type: Mongoose.SchemaTypes.ObjectId, ref: 'trainRoute', required: true },
+    platform: { type: String, required: true },
     arrivalOffset: { type: Number, required: true },
     departureOffset: { type: Number, required: true },
   },
