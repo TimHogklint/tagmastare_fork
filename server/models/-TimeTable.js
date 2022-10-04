@@ -1,4 +1,4 @@
-const Mongoose  = require("mongoose");
+const Mongoose = require("mongoose");
 
 db.registerModel({
   model: 'TimeTable',
@@ -6,8 +6,10 @@ db.registerModel({
   apiRoute: 'timeTable',
   readOnly: false,
   schemaProperties: {
-    startTime: { type: Number, required: true },
+    startHour: { type: Number, required: true },
+    startMinute: { type: Number, required: true },
     runsWeekends: { type: Boolean, required: true },
+    date: { type: Date, required: true },
     routeId: { type: Mongoose.SchemaTypes.ObjectId, ref: 'TrainRoute', required: true }
   },
   addHooks(schema) { }

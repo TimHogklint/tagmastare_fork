@@ -4,6 +4,8 @@ const { NavItem } = require('react-bootstrap');
 const db = require('./ModelHandler');
 const Customer = require('./models/-Customer');
 
+
+
 module.exports = class RestApi {
 
   constructor(expressApp) {
@@ -23,20 +25,33 @@ module.exports = class RestApi {
   async createRoutes() {
     await db.connect();
     this.createTablesAndViewsRoute();
+    this.getBookingByDate();
     this.createRouter();
+  }
+
+  getBookingByDate() {
+    this.app.get('/api/getBookingByDate/:id', async (req, res) => {
+      let model = await db.modelsByApiRoute['timeTable'];
+      let result = await model._model.find({ date: (req.params.id) }, { __v: 0 }).lean();
+      res.json(result)
+
+    });
   }
 
   createTablesAndViewsRoute() {
     this.app.get('/api/tablesAndViews', async (req, res) => {
-      res.json({ soon: true });
+      res.json("testing")
     });
   }
+
 
   createRouter() {
     let run = (req, res) => this.route(req, res);
     this.app.all('/api/:route', run);
     this.app.all('/api/:route/:id', run);
   }
+
+
 
   async route(req, res) {
     let { route, id } = req.params;
@@ -50,6 +65,7 @@ module.exports = class RestApi {
       this[method](model, id, req, res);
     }
   }
+
 
   // async get(m, id, req, res) {
   //   id = !isNaN(+id) ? id : null;
