@@ -59,32 +59,30 @@ module.exports = class RestApi {
   //   res.json({message : result});
   // }
 
-  async get(m, id, req, res) 
-  {
-    if(!req.params.id) 
-    {
+  async get(m, id, req, res) {
+    if (!req.params.id) {
       id = !isNaN(+id) ? id : null;
 
       let result = await m._model
         .find({}, { __v: 0 }).lean();
-      res.json({ message : result});
+      // ? why unneccesary encapsulaton of result in an
+      // object as message property
+
+      // res.json({ message : result});
+
+      res.json(result);
     }
-    else
-    {
-      try
-      {
-        const found = await m._model.find( { _id: (req.params.id) });
-  
-        if(found != null)
-        {
+    else {
+      try {
+        const found = await m._model.find({ _id: (req.params.id) }, { __v: 0 }).lean();
+        if (found != null) {
           res.json(found);
         }
         else
-          res.status(404).json({message : err})
+          res.status(404).json({ message: err })
       }
-      catch(err)
-      {
-        res.status(500).json({messsage : err});
+      catch (err) {
+        res.status(500).json({ messsage: err });
       }
     }
   }

@@ -1,6 +1,6 @@
 
 
-GET http://localhost:3000/api/customers
+GET http://localhost:3000/api/bookingsPerCustomer
 
 ###
 
@@ -8,13 +8,14 @@ GET http://localhost:3000/api/customers/6336bc6b9ada6332dda44930
 
 ###
 
-POST http://localhost:3000/api/customers
+POST http://localhost:3000/api/6336a8bf93e182385bebd7b3
 Content-Type: application/json
 
 {
-    "customerName": "Gunde2 Svan",
-    "email": "gundeman@gmail.com",
-    "telephoneNumber": "0764651321"
+    "ticketAmount": "1",
+    "routeId": "6336d0e24ee5294617aea162",
+    "totalPrice": "425",
+    "customer": "6336a8bf93e182385bebd7b3"
 }
 
 ###

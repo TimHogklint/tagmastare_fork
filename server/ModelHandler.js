@@ -3,7 +3,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 
 module.exports = class ModelHandler {
-  
+
   static types = mongoose.Schema.Types
   static modelsByApiRoute = {}
   static modelsByName = {}
