@@ -13,6 +13,23 @@ GET http://localhost:3000/api/seekRoute/Köping+Arboga
 
 ###
 
+GET http://localhost:3000/api/getUniqueStations
+
+###
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 POST http://localhost:3000/api/tickets
 Content-Type: application/json
 

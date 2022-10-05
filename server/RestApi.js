@@ -27,7 +27,10 @@ module.exports = class RestApi {
     await db.connect();
     this.createTablesAndViewsRoute();
     this.getBookingByDate();
+
+    this.getUniqueStations();
     this.seekRoute();
+
     this.createRouter();
   }
 
@@ -53,9 +56,49 @@ module.exports = class RestApi {
     this.app.all('/api/:route/:id', run);
   }
 
+  getUniqueStations()
+  {
+    this.app.get('/api/getUniqueStations', async (req, res) => 
+    {
+      try
+      {
+        
+        // Using the view to connect stations to routes via ID.
+        let model = await db.modelsByApiRoute['station'];
 
+        // Get all train routes with related stations as childern in stations.
+        let data = await  model._model.find({}, { _id: 0, stationName: 1 });
 
-  
+        // Format all stations to more workable state 
+        // ie remove its key and id.
+        const unsortedNames = [];
+        for(let i = 0 ; i < Object.values(data).length;i++)
+        {
+          let nameStat = data[i]['stationName'];
+          // console.log(nameStat);
+          unsortedNames.push(nameStat);
+        }
+
+        // console.log(unsortedNames);
+
+        const names = unsortedNames;
+        const count = names =>
+          names.reduce((result, value) => ({ ...result,
+            [value]: (result[value] || 0) + 1
+          }), {}); // don't forget to initialize the accumulator
+        const duplicates = dict =>
+          Object.keys(dict).filter((a) => dict[a] > 1);
+        
+
+        res.json(duplicates(count(names)));
+      }
+      catch(err)
+      {
+        res.json(err);
+      }
+    });
+  }
+
   // WIP only finds a stationA and which route it belongs too. 
   seekRoute() {
     this.app.get('/api/seekRoute/:id', async (req, res) => {
