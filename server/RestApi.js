@@ -2,7 +2,8 @@ const { json } = require('express');
 const { default: mongoose } = require('mongoose');
 const { NavItem } = require('react-bootstrap');
 const db = require('./ModelHandler');
-const Customer = require('./models/-Customer');
+const Customer = require('../server/models/-Customer')
+
 
 
 
@@ -114,9 +115,30 @@ module.exports = class RestApi {
     // not written yet, but should be quite simple to write
   }
 
-  async delete() {
-    // not written yet, but should be quite simple to write
+  async delete(m, id, req, res) {
+    if (!req.params.id) {
+      res.json("You need to enter an Id of the object you want to delete")
+    }
+    else {
+      let model = await db.modelsByApiRoute['tickets'];
+      if (m === model) {
+        let query = await m._model.find({ _id: (req.params.id) }).select('_id');
+        let ticketToRemove = await m._model.findByIdAndRemove({ _id: (req.params.id) });
+
+        res.json("Du har avbokat biljetten med nummer: " + query)
+      }
+      else {
+        let objectToRemove = await m._model.findByIdAndRemove({ _id: (req.params.id) });
+        if (!objectToRemove) {
+          res.json("That object does not exist in the database")
+        }
+        else {
+          res.json("You have removed " + objectToRemove)
+        }
+      }
+    }
   }
+
 
   parseUrlQueryParams(url) {
     let operators = ['!=', '>=', '<=', '=', '>', '<', '≈'];
