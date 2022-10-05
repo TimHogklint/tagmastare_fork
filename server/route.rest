@@ -1,6 +1,9 @@
 
 
-GET http://localhost:3000/api/bookingsPerCustomer
+GET http://localhost:3000/api/customers
+
+
+
 
 ###
 
@@ -8,34 +11,20 @@ GET http://localhost:3000/api/customers/6336bc6b9ada6332dda44930
 
 ###
 
-POST http://localhost:3000/api/6336a8bf93e182385bebd7b3
+POST http://localhost:3000/api/tickets
 Content-Type: application/json
 
 {
-    "ticketAmount": "1",
-    "routeId": "6336d0e24ee5294617aea162",
-    "totalPrice": "425",
-    "customer": "6336a8bf93e182385bebd7b3"
-}
-
-###
-
-POST http://localhost:3000/api/customers
-Content-Type: application/json
-
-{
+    "bookingId": "633be8ed3d9297b45976df56",
+    "trainNumber":"6336ca454ee5294617aea153",
+    "route": "6336d0e24ee5294617aea162",
+    "departureTime": "2022-10-24",
+    "departureStation": "633ac6b165b9cde5dd6cb181",
+    "arrivalStation": "633ac75b65b9cde5dd6cb193",
+    "ticketPrice": "420"
     
-    "customerName": "Gunde2 Svan",
-    "email": "gundeman@gmail.com",
-    "telephoneNumber": "0764651321"
 }
 
 ###
 
-POST http://localhost:3000/api/login
-Content-Type: application/json
-
-{
-    "passWord": "hejsan123",
-    "userID": "6335e21b4de4c07fb59b591c"
-}
+DELETE http://localhost:3000/api/customers/
