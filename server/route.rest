@@ -2,12 +2,14 @@
 
 GET http://localhost:3000/api/customers
 
-
-
-
 ###
 
 GET http://localhost:3000/api/customers/6336bc6b9ada6332dda44930
+
+###
+
+// WIP
+GET http://localhost:3000/api/seekRoute/Köping+Arboga
 
 ###
 

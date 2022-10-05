@@ -27,6 +27,7 @@ module.exports = class RestApi {
     await db.connect();
     this.createTablesAndViewsRoute();
     this.getBookingByDate();
+    this.seekRoute();
     this.createRouter();
   }
 
@@ -52,6 +53,64 @@ module.exports = class RestApi {
     this.app.all('/api/:route/:id', run);
   }
 
+
+
+  
+  // WIP only finds a stationA and which route it belongs too. 
+  seekRoute() {
+    this.app.get('/api/seekRoute/:id', async (req, res) => {
+
+      // example "Göteborg+Trelleborg"
+      // Handle spaces ? "Stockholm C"
+      const str = req.params.id;
+      const splitArr = str.split("+");
+
+      // if splitArr lenght > 1 : error , bad format.
+      const stationA = splitArr[0];
+      const stationB = splitArr[1];
+
+      
+      // The end result of query; initially "None".
+      let searchResult = "None";
+
+      // Case #1 - Get routes that contain both stations on single 
+      try
+      {
+        // Using the view to connect stations to routes via ID.
+        let model = await db.modelsByApiRoute['stationsInRoute'];
+
+        // Get all train routes with related stations as childern in stations.
+        let result = await model._model.find( { __v: 0 }).lean();
+
+
+        // Outside loop goes through all trainRoutes
+        // I should put this inside its own method.
+        for(let y = 0; y < Object.values(result).length; y++)
+        {
+          let stationsRoute = result[y];
+
+          // Abit confusing part here 'station' is actually the list 
+          // of all stations under this trainRoute.
+          for(let x = 0 ; x < stationsRoute['station'].length; x++)
+          {
+
+            let currentStation = result[y].station[x];
+
+            if(currentStation['stationName'] === stationA){
+             searchResult  =  ("Found " + stationA + " in route " + result[y].routeName);
+            }
+          }
+        }
+
+         res.json(searchResult);
+      }
+      catch(err)
+      {
+          res.json("{message : err}");
+      }
+
+    });
+  }
 
 
   async route(req, res) {
