@@ -76,42 +76,124 @@ module.exports = class RestApi {
       // Case #1 - Get routes that contain both stations on single 
       try
       {
+
         // Using the view to connect stations to routes via ID.
         let model = await db.modelsByApiRoute['stationsInRoute'];
 
         // Get all train routes with related stations as childern in stations.
         let result = await model._model.find( { __v: 0 }).lean();
 
+        // Returns routes that contain a list with <stationToFind>
+        const stationAResults = this.findRouteWithStation(result,stationA);
 
-        // Outside loop goes through all trainRoutes
-        // I should put this inside its own method.
-        for(let y = 0; y < Object.values(result).length; y++)
+        // This result is only important if singleRoute fails.
+        const StationBResults = this.findRouteWithStation(result,stationB);
+
+        // if this fails we will have so some more searching.
+        const singleRoute = this.singleRouteCheck(stationAResults,stationA,stationB);
+
+        if(singleRoute != 'NULL')
         {
-          let stationsRoute = result[y];
+          console.log( (stationA + " and " + stationB + " both exist in " + singleRoute['routeName'] + " route."));
+        }
+        else // ie must traverse to another route(s)
+          console.log("singleRoute failed");
+
+        // just debug peek at first.
+        // console.log(StationBResults[0]['routeName']);
+         res.json(singleRoute);
+      }
+      catch(err)
+      {
+          res.json("{message : err}");
+      }
+    });
+  }
+
+  findRouteWithStation(allRoutes, stationToFind)
+  {
+        // Since we can have multiple results we save 
+        // them in an array ahead of sorting them.
+        let hits = new Array();
+
+        for(let y = 0; y < Object.values(allRoutes).length; y++)
+        {
+          let stationsRoute = allRoutes[y];
 
           // Abit confusing part here 'station' is actually the list 
           // of all stations under this trainRoute.
           for(let x = 0 ; x < stationsRoute['station'].length; x++)
           {
 
-            let currentStation = result[y].station[x];
+            let currentStation = allRoutes[y].station[x]['stationName'];
+            // console.log(currentStation);
 
-            if(currentStation['stationName'] === stationA){
-             searchResult  =  ("Found " + stationA + " in route " + result[y].routeName);
+            if(currentStation === stationToFind){
+             //searchResult  =  ("Found " + stationToFind + " in route " + allRoutes[y].routeName);
+             hits.push(allRoutes[y]);
             }
           }
         }
 
-         res.json(searchResult);
-      }
-      catch(err)
-      {
-          res.json("{message : err}");
-      }
-
-    });
+        return hits;
   }
 
+  singleRouteCheck(stationAResults, origin, destination)
+  {
+        // A valid station in same list must be that of a higher index then 
+        // then station A. Otherwise its unreachable in that list / invalid.
+        // - 
+        // 
+        let result = "NULL";
+
+        let simpleRoute = false;
+        for(let y = 0; y < Object.values(stationAResults).length; y++)
+        {
+          let valid = false;
+
+          let stationsRoute = stationAResults[y];
+
+          // Abit confusing part here 'station' is actually the list 
+          // of all stations under this trainRoute.
+          for(let x = 0 ; x < stationsRoute['station'].length; x++)
+          {
+
+            let currentStation = stationAResults[y].station[x]['stationName'];
+            // console.log(currentStation);
+
+            // We must have found stationA first
+
+            // Important we find our entry point first lest we board a train going away 
+            // from our intended destination 
+            if(currentStation === origin)
+            {
+              valid = true;
+            }
+
+            if(valid)
+            {
+              if(currentStation === destination)
+              {
+                //console.log( ("Found " + destination + " in route " + stationAResults[y].routeName));
+
+                result = stationAResults[y];
+
+                // abit redunatant use of bool when you can just check if 
+                // result is empthy.
+                simpleRoute = true;
+                break;
+              }
+            }
+
+            // if we found our result we break out of loops.
+            if(simpleRoute)
+              break;
+          }
+        }
+
+
+        return result;
+  }
 
   async route(req, res) {
     let { route, id } = req.params;
