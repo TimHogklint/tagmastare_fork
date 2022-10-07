@@ -7,6 +7,16 @@ export default function Booking() {
   const [locations, setLocations] = useState([]);
   const [locationMatch, setLocationMatch] = useState([]);
 
+  // This is quite bad - I basically "recoded" dropdown 
+  // component twice here. I just wanna get to the route 
+  // display - however I should go back and encapsulate 
+  // the dropdown into a component.
+  //
+  // first dropdown list
+  const [from , setFrom] = useState([]);
+  // second dropdown list
+  const [to , setTo] = useState([]);
+
 
   useEffect(() => {
     const loadLocations = async () => {
@@ -18,11 +28,13 @@ export default function Booking() {
           setLocations(json);
         })
     };
-
     loadLocations();
   }, []);
 
-  const searchLocations = (text) => {
+  const searchFromLocations = (text) => {
+
+    setFrom(text);
+
     let matches = locations.filter((location) => {
       const regex = new RegExp(`${text}`, "gi");
       // console.log("Autocomplete -> " + location.match(regex));
@@ -31,6 +43,28 @@ export default function Booking() {
 
     setLocationMatch(matches);
   };
+
+  const searchToLocations = (text) => {
+
+    
+    setTo(text);
+
+    let matches = locations.filter((location) => {
+      const regex = new RegExp(`${text}`, "gi");
+      // console.log("Autocomplete -> " + location.match(regex));
+      return location.match(regex);
+    })
+
+    setLocationMatch(matches);
+  };
+
+  function handleFromLocation(setName) {
+     setFrom(setName);
+  }
+
+  function handleToLocation(setName) {
+    setTo(setName);
+ }
 
   // Controls the dropdown menu on search fields; I would like 
   // to encapsulate the dropdown into a component in the future.
@@ -56,16 +90,17 @@ export default function Booking() {
             <input className="searchfield"
               type="search"
               placeholder="Till"
-              onChange={(e) => searchLocations(e.target.value)}
+              onChange={(e) => searchFromLocations(e.target.value)}
               onFocus={() => dd_from_setIsOpen(true)}
               onBlur={() => dd_from_setIsOpen(false)}
+              value={from}
             ></input>
 
             <div className="search-form">
               <div className={'dropdown-' + (dd_from_isOpen ? 'open' : 'closed')}>
                 {locationMatch.map(location => {
                   return (
-                    <a href="#">{location}</a>
+                    <a href="#" onMouseDown={() => handleFromLocation(location)} >{location}</a>
                   )
                 })}
               </div>
@@ -76,16 +111,17 @@ export default function Booking() {
             <input className="searchfield"
               type="search"
               placeholder="Från"
-              onChange={(e) => searchLocations(e.target.value)}
+              onChange={(e) => searchToLocations(e.target.value)}
               onFocus={() => dd_to_setIsOpen(true)}
               onBlur={() => dd_to_setIsOpen(false)}
+              value={to}
             ></input>
 
             <div className="search-form">
               <div className={'dropdown2-' + (dd_to_isOpen ? 'open' : 'closed')}>
                 {locationMatch.map(location => {
                   return (
-                    <a href="#">{location}</a>
+                    <a href="#" onMouseDown={() => handleToLocation(location)}>{location}</a>
                   )
                 })}
               </div>
