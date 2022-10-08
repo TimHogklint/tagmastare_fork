@@ -8,7 +8,6 @@ export default function TimeTable() {
           <Link className="goback-link" to="/">X Gå tillbaka</Link>
         </div>
       </div>
-      <QrCode value="sdhasdaskdjhljlajds23123190980asddjlhjads" />
     </div>
   )
 }

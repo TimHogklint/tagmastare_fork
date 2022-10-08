@@ -55,7 +55,7 @@ export default function App() {
           <Route path="/payment" element={<Payment />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/get-ticket" element={<GetTicket />}></Route>
-          <Route parth="/qr" element={<Qr />}></Route>
+          <Route path="/qr" element={<Qr />}></Route>
         </Routes>
 
       </BrowserRouter>
