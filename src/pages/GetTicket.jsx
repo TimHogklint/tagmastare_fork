@@ -1,38 +1,38 @@
+
 import { Link } from "react-router-dom";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Button } from '../components/bootstrap-components'
 
+
 export default function GetTicket() {
-    const inputStyle = {
-      padding: '.7%',
-      paddingLeft: "4%",
-      paddingRight:"4%",
-      marginTop: '15%',
-      marginBottom: '2.8%',
-      marginLeft: "40%",
-      marginRight: "80%",
-       
-    
-     
-   
-  };
+
+  const [ticket, setTicket] = useState(null)
+  
+  useEffect(() => {
+    const fetchTicket = async () => {
+      const response = await fetch('http://localhost:3000/api/tickets')
+      const json = await response.json()
+
+      if (response.ok) {
+        setTicket(json)
+      }
+    }
+    fetchTicket()
+    }, [])
+  
+  
   return (
-    <div>
-      
-     <div className="goback">
+    <div className="get-ticket-page">
+      <div className="goback">
           <Link className="goback-link" to="/ticket">X Gå tillbaka</Link>
       </div>
-    
-      <div class='col-sm-10'>
-      
-              <input
-                style={inputStyle}
-                type='bookingnumber'
-                class='form-control'
-                id='inputBookingNr'
-                placeholder='Ange Bokningsnummer'
-        />
-        <center>
+
+      <div className="get-ticket">
+        <label>Ange bokningnummer</label>
+        <input type="Booking Number" />
+          <div>{ ticket && ticket.map((ticket) => (
+            <p key={ ticket._id }>{ ticket.ticketPrice }</p>
+          )) }</div>
          <div className='btn'>
           <Button className ='get-ticket-btn'
           
@@ -40,8 +40,8 @@ export default function GetTicket() {
           Hämta Biljett
           </Button>
           </div>
-        </center>
-            </div>
-      </div>
+        </div>
+    </div>
+    
   )
 }

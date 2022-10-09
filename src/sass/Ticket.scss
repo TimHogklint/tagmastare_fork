@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-.login-container,
+.get-ticket {
+  display: flex; 
+  align-items: center;
+  flex-direction: column;
+  padding-top: 200px; 
+}
+
+/* .login-container,
 .register-container {
   display: flex;
   flex-direction: column;
@@ -46,7 +53,7 @@
 h3{
   text-align: center;
   
-}
+} */
 
 
 
