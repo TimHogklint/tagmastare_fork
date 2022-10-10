@@ -15,9 +15,9 @@ export default function Booking() {
   // the dropdown into a component.
   //
   // first dropdown list
-  const [from , setFrom] = useState([]);
+  const [from, setFrom] = useState([]);
   // second dropdown list
-  const [to , setTo] = useState([]);
+  const [to, setTo] = useState([]);
 
   useEffect(() => {
     const loadLocations = async () => {
@@ -47,7 +47,7 @@ export default function Booking() {
 
   const searchToLocations = (text) => {
 
-    
+
     setTo(text);
 
 
@@ -61,27 +61,26 @@ export default function Booking() {
   };
 
   function handleFromLocation(setName) {
-     setFrom(setName);
-     updateSearch(from,to);
+    setFrom(setName);
+    updateSearch(from, to);
   }
 
   function handleToLocation(setName) {
     setTo(setName);
-    updateSearch(from,to);
- }
- 
-// get routes
-function updateSearch(from, to)
-{
+    updateSearch(from, to);
+  }
+
+  // get routes
+  function updateSearch(from, to) {
     console.log("SEARCH -> " + "http://localhost:3000/api/seekRoute/" + from + "+" + to);
 
-    fetch("http://localhost:3000/api/seekRoute/"+ from + "+" + to)
+    fetch("http://localhost:3000/api/seekRoute/" + from + "+" + to)
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
         setRoute(json);
       })
-}
+  }
 
   // Controls the dropdown menu on search fields; I would like 
   // to encapsulate the dropdown into a component in the future.
@@ -195,7 +194,29 @@ function updateSearch(from, to)
         </div>
       </div>
        */}
-      <h3> Rutt val : {route['routeName'] + "\n"}</h3>
+
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
+       <h3 style={{color: "red"}}>Debug panel</h3>
+
+
+        {route.map(item => 
+        {
+          let stations = new Array();
+
+          item.station.forEach(element => {
+            stations.push(element['stationName'] + ",");
+          });
+
+          return (<>
+            <h3>Route name : {item['routeName']}</h3>
+            <h3>Path : {stations}</h3>
+            </>
+          )
+        })
+        }
+
+      </div>
     </div>
   )
 }
