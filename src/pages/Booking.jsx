@@ -7,6 +7,8 @@ export default function Booking() {
   const [locations, setLocations] = useState([]);
   const [locationMatch, setLocationMatch] = useState([]);
 
+  let [route, setRoute] = useState([]);
+
   // This is quite bad - I basically "recoded" dropdown 
   // component twice here. I just wanna get to the route 
   // display - however I should go back and encapsulate 
@@ -16,7 +18,6 @@ export default function Booking() {
   const [from , setFrom] = useState([]);
   // second dropdown list
   const [to , setTo] = useState([]);
-
 
   useEffect(() => {
     const loadLocations = async () => {
@@ -49,6 +50,7 @@ export default function Booking() {
     
     setTo(text);
 
+
     let matches = locations.filter((location) => {
       const regex = new RegExp(`${text}`, "gi");
       // console.log("Autocomplete -> " + location.match(regex));
@@ -60,11 +62,26 @@ export default function Booking() {
 
   function handleFromLocation(setName) {
      setFrom(setName);
+     updateSearch(from,to);
   }
 
   function handleToLocation(setName) {
     setTo(setName);
+    updateSearch(from,to);
  }
+ 
+// get routes
+function updateSearch(from, to)
+{
+    console.log("SEARCH -> " + "http://localhost:3000/api/seekRoute/" + from + "+" + to);
+
+    fetch("http://localhost:3000/api/seekRoute/"+ from + "+" + to)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        setRoute(json);
+      })
+}
 
   // Controls the dropdown menu on search fields; I would like 
   // to encapsulate the dropdown into a component in the future.
@@ -178,7 +195,7 @@ export default function Booking() {
         </div>
       </div>
        */}
-      {/* <h3> Some text #2 {locationMatch + "\n"}</h3> */}
+      <h3> Rutt val : {route['routeName'] + "\n"}</h3>
     </div>
   )
 }
