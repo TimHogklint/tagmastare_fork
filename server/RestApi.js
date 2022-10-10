@@ -144,7 +144,19 @@ module.exports = class RestApi {
       }
     });
   }
-  // After some thinking.
+  
+  // Ended up being a naive solution as I had so much problem 
+  // ordering my data :/.
+  // o o o
+  // In retrospect I would have taken the unique stations and 
+  // arranged via a view which routes <station> is mentioned in
+  // so
+  // Object <UNIQUE station>
+  //   | 
+  //   *--- Arr <routes> this station is referenced in. 
+  // 
+  // I feel in the end that might have been more robust.  
+  // .. yeah the whole " woulda , coulda , shoulda" rigamaroll. 
   seek(allRoutes, origin, destination) {
 
     let originList = this.findRoutesWithLocation(allRoutes, origin);
