@@ -1,124 +1,77 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Button } from '../components/bootstrap-components'
 import { Link } from "react-router-dom";
 
 
-export default function Register() {
-  const inputStyle = {
-    padding: '3%',
-    marginTop: '5%',
-    marginBottom: '10%',
-  };
 
-  return (
+/* export default function Register() */
+class Register extends Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      customerName: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+  
+  handleSubmit(e) {
+    e.preventDefault()
+    const { customerName, email, phoneNumber, password } = this.state
+    console.log(customerName, email, phoneNumber, password)
+  }
+  render() {
+    return (
     <div>
-      
-     <div className="goback">
-          <Link className="goback-link" to="/Logg-In">X Gå tillbaka</Link>
+      <div className="goback">
+        <Link className="goback-link" to="/Logg-In">X Gå tillbaka</Link>
       </div>
-    <div className='register'>
-      <div className='register-container'>
-        <div className='Heading'>
-          <h1>Registrera</h1>
-        </div>
-        <form>
-          <div class='form-group row'>
-            <label for='staticEmail' class='col-sm-2 col-form-label'>
-              Förnamn
-            </label>
-            <div class='col-sm-10'>
-              <input
-                style={inputStyle}
-                type='text'
-                readonly
-                class='form-control-plaintext'
-                id='staticEmail'
-                placeholder='Förnamn'
-              />
-            </div>
-          </div>
-          <div class='form-group row'>
-            <label for='staticEmail' class='col-sm-2 col-form-label'>
-              Efternamn
-            </label>
-            <div class='col-sm-10'>
-              <input
-                style={inputStyle}
-                type='text'
-                readonly
-                class='form-control-plaintext'
-                id='staticEmail'
-                placeholder='Efternamn'
-              />
-            </div>
-          </div>
-          <div class='form-group row'>
-            <label for='staticEmail' class='col-sm-2 col-form-label'>
-              Email
-            </label>
-            <div class='col-sm-10'>
-              <input
-                style={inputStyle}
-                type='text'
-                readonly
-                class='form-control-plaintext'
-                id='staticEmail'
-                placeholder='Email'
-              />
-            </div>
-            </div>
-            <div class='form-group row'>
-            <label for='inputMobileNumber' class='col-sm-2 col-form-label'>
-              Mobil
-            </label>
-            <div class='col-sm-10'>
-              <input
-                style={inputStyle}
-                type='MobileNumber'
-                readonly
-                class='form-control'
-                id='inputMobileNumber'
-                placeholder='Mobilnummer'
-              />
-            </div>
-          </div>
-          <div class='form-group row'>
-            <label for='inputPassword' class='col-sm-2 col-form-label'>
-              Lösenord
-            </label>
-            <div class='col-sm-10'>
-              <input
-                style={inputStyle}
-                type='password'
-                class='form-control'
-                id='inputPassword'
-                placeholder='Lösenord'
-              />
-            </div>
-          </div>
-          <div class='form-group row'>
+        
+      <form onSubmit={ this.handleSubmit }>
+        <h1>Registrera</h1>
+        <label >Namn</label>
+        <input
+          type='text'
+          placeholder='Förnamn'
+          onChange = {(e) => this.setState({customerName: e.target.value})}/>
+
+         <label  >Email</label>
+          <input
+            type='email'
+            placeholder='Email'
+            onChange = {(e) => this.setState({email: e.target.value})}/>
+
+        <label >Mobil</label>
+          <input
+            type='tel'
+            placeholder='Mobilnummer'
+            onChange = {(e) => this.setState({phoneNumber: e.target.value})}/>
+          
+        <label >Lösenord</label>
+          <input
+            type='password'
+            placeholder='Lösenord'
+            onChange = {(e) => this.setState({password: e.target.value})}/>
+            
+          {/* <div class='form-group row'>
             <label for='inputPassword' class='col-sm-2 col-form-label'>
               Upprepa Lösenord
             </label>
             <div class='col-sm-10'>
               <input
-                style={inputStyle}
+ 
                 type='password'
                 class='form-control'
                 id='inputPassword'
                 placeholder='Upprepa lösenord'
-              />
-            </div>
-          </div>
+              /> */}
+          <Button type='submit'>Skapa konto</Button>
         </form>
-        <div>
-          <Button className='createaccountbtn'
-          >
-            Skapa konto
-          </Button>
-        </div>
       </div>
-      </div>
-      </div>
-  );
+    );
+  }
 }
+export default Register;
