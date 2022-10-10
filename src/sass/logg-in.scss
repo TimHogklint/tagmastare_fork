@@ -1,6 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+.login-page {
+  display: flex; 
+  flex-direction: column;
+  font-family: 'inter';
+}
 
-.login-container,
+.login-section,
+.login-form {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+
+
+/* .login-container,
 .register-container {
   display: flex;
   flex-direction: column;
@@ -8,10 +22,7 @@
   align-items: center;
   justify-content: center;
 }
-.goback {
-  color: black;
-  
-}
+
 
 .Heading {
   padding-top: auto;
@@ -36,16 +47,7 @@
 .btnn {
   margin-top: 1%;
 }
-.goback-link {
-  font-size: 15px;
-  text-decoration: none;
-  color: black;
-  float: left;
-  padding-left: 20px;
-  height: fit-content;
-  padding-top: 1%;
-  font-family: "Inter";
-}
+
 .register-link {
   font-size: 30px;
   text-decoration: none;
@@ -66,4 +68,4 @@
 
 .createaccountbtn{
   font-size: 20px;
-}
+} */

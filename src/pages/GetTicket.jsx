@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import React, {useEffect, useState} from 'react';
 import { Button } from '../components/bootstrap-components'
+import imageIcon from '../images/ticket.png'
 
 
 export default function GetTicket() {
@@ -27,7 +28,8 @@ export default function GetTicket() {
           <Link className="goback-link" to="/ticket">X Gå tillbaka</Link>
       </div>
 
-      <div className="get-ticket">
+      <div className="get-ticket-section">
+        <img src={imageIcon} alt="ticket-logo" />
         <label>Ange bokningnummer</label>
         <input type="Booking Number" />
           <div>{ ticket && ticket.map((ticket) => (

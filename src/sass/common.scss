@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap");
+
+
+
+label {
+  font-family: 'inter';
+  font-size: 25px;
+}
+
+input {
+  width: 500px;
+  height: 55px;
+  margin: 20px 0px 50px;
+  font-size: 25px;
+  border-radius: 10px;
+  border-color: gray;
+
+}
+
+//Tillbaka knappen
+.goback-link {
+  font-size: 15px;
+  text-decoration: none;
+  color: black;
+  float: left;
+  padding-left: 20px;
+  height: fit-content;
+  padding-top: 1%;
+  font-family: "Inter";
+  padding-bottom: 20px;
+}

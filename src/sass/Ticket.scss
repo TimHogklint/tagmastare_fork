@@ -1,11 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-.get-ticket {
+.get-ticket-page {
+  display: flex;
+  flex-direction: column;
+}
+.get-ticket-section {
   display: flex; 
   align-items: center;
   flex-direction: column;
   padding-top: 200px; 
 }
+
+
 
 /* .login-container,
 .register-container {

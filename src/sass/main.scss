@@ -4,7 +4,7 @@
 @import "./header.scss";
 @import "./booking.scss";
 
-@import "./LoggIn.scss";
+@import "./logg-in.scss";
 
 @import "./ticket.scss";
 
@@ -14,4 +14,5 @@
 
 @import "./temp-link.scss"; // remove later.
 
-@import "./form.scss"
+//Design of the common components 
+@import "./common.scss"
