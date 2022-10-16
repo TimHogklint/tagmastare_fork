@@ -23,7 +23,7 @@ export default function LoggIn() {
     </div>
 
     <div className='login-section'>
-      <img src={userIcon} alt="User Icon" />
+      <img className="user-image" src={userIcon} alt="User Icon" />
       
     <form className="login-form" onSubmit={ handleSubmit }>
       <label>Email</label>
@@ -44,10 +44,10 @@ export default function LoggIn() {
         placeholder='Lösenord'
         />
         
-      <Button className='login-btn'>Logga in</Button>
+      <Button className='logg-in-button'>Logga in</Button>
       <h3>Har du ingen konto? Registrera dig här.</h3>
 
-      <Button>
+      <Button className='logg-in-button'>
         <Link className="register-link" to="/register">Registrera</Link>
       </Button>
       </form>

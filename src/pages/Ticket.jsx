@@ -38,9 +38,9 @@ export default function Ticket() {
                 id='inputPassword'
                 placeholder='Lösenord'
           />
-          <Button className='login-btn'>Logga in</Button>
+          <Button className='logg-in-button'>Logga in</Button>
           <h4>Eller?</h4>
-          <Button className="ticket-btn">
+          <Button className="logg-in-button">
             <Link className="getTicket-link" to="/get-ticket"> Hämta Biljett</Link>
           </Button>
         </form>
