@@ -2,7 +2,6 @@ const { json } = require('express');
 const { default: mongoose } = require('mongoose');
 const { NavItem } = require('react-bootstrap');
 const db = require('./ModelHandler');
-const Customer = require('../server/models/-Customer')
 
 
 

@@ -1,77 +1,95 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import { Button } from '../components/bootstrap-components'
 import { Link } from "react-router-dom";
+import {useSignup} from "../hooks/useSignup"
+//const User = require('../../server/models/-User')
 
 
 
-/* export default function Register() */
-class Register extends Component {
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      customerName: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
+
+export default function Register(){
+  const [customerName, setCustomerName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [password, setPassword] = useState('')
+  const {  error, isLoading } = useSignup()
+
+ /*  const createUser = async (req, res) => {
+    const { customerName, email, phone, password } = req.body
+    
+      try {
+      const user = await User.create({ customerName, email, phone, password })
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(400).json({error: error.message})
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
+  } */
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+      const user = {customerName, email, phone, password}
+
+    const response = await fetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const json = await response.json()
+
+    if (response.ok) {
+      setCustomerName('')
+      setEmail('')
+      setPhone('')
+      setPassword('')
+      console.log('new user created', json)
+    }
+    
   }
   
-  handleSubmit(e) {
-    e.preventDefault()
-    const { customerName, email, phoneNumber, password } = this.state
-    console.log(customerName, email, phoneNumber, password)
-  }
-  render() {
     return (
     <div>
       <div className="goback">
         <Link className="goback-link" to="/Logg-In">X Gå tillbaka</Link>
       </div>
         
-      <form onSubmit={ this.handleSubmit }>
+      <form onSubmit={handleSubmit }>
         <h1>Registrera</h1>
         <label >Namn</label>
         <input
-          type='text'
-          placeholder='Förnamn'
-          onChange = {(e) => this.setState({customerName: e.target.value})}/>
+            type='text'
+            placeholder='Namn'
+            onChange={ (e) => setCustomerName(e.target.value) }
+            value={ customerName } />
 
          <label  >Email</label>
           <input
             type='email'
             placeholder='Email'
-            onChange = {(e) => this.setState({email: e.target.value})}/>
+            onChange={ (e) => setEmail(e.target.value) }
+          value={ email }/>
 
         <label >Mobil</label>
           <input
             type='tel'
             placeholder='Mobilnummer'
-            onChange = {(e) => this.setState({phoneNumber: e.target.value})}/>
+            onChange={ (e) => setPhone(e.target.value) }
+          value={ phone }/>
           
         <label >Lösenord</label>
           <input
             type='password'
             placeholder='Lösenord'
-            onChange = {(e) => this.setState({password: e.target.value})}/>
-            
-          {/* <div class='form-group row'>
-            <label for='inputPassword' class='col-sm-2 col-form-label'>
-              Upprepa Lösenord
-            </label>
-            <div class='col-sm-10'>
-              <input
- 
-                type='password'
-                class='form-control'
-                id='inputPassword'
-                placeholder='Upprepa lösenord'
-              /> */}
-          <Button type='submit'>Skapa konto</Button>
+            onChange={ (e) => setPassword(e.target.value) }
+          value={ password }/>
+
+          <Button disabled={ isLoading } type='submit'>Skapa konto</Button>
+          {error && <div className="error">{error}</div>}
         </form>
       </div>
     );
-  }
+  
 }
-export default Register;
+

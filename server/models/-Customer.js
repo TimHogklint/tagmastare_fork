@@ -9,7 +9,8 @@ db.registerModel({
   schemaProperties: {
     customerName: { type: String, required: true },
     email: { type: String, required: true },
-    telephoneNumber: {type: String, required: true}
+    telephoneNumber: { type: String, required: true },
+    password: {type: String, required: true}
   },
   addHooks(schema) { }
 }) 
