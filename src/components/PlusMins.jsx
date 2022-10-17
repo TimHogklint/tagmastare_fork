@@ -1,4 +1,4 @@
-/*import React from 'react';
+import React from 'react';
 import { useState } from 'react';
 
 const PlusMinus = (props) => {
@@ -32,4 +32,4 @@ const PlusMinus = (props) => {
   );
 };
 
-export default PlusMinus;*/
+export default PlusMinus;
