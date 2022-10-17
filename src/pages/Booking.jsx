@@ -33,7 +33,6 @@ export default function Booking() {
   }, []);
 
   const searchFromLocations = (text) => {
-
     setFrom(text);
 
     let matches = locations.filter((location) => {
@@ -46,10 +45,7 @@ export default function Booking() {
   };
 
   const searchToLocations = (text) => {
-
-
     setTo(text);
-
 
     let matches = locations.filter((location) => {
       const regex = new RegExp(`${text}`, "gi");
@@ -62,12 +58,12 @@ export default function Booking() {
 
   function handleFromLocation(setName) {
     setFrom(setName);
-    updateSearch(from, to);
+    updateSearch(setName, to);
   }
 
   function handleToLocation(setName) {
     setTo(setName);
-    updateSearch(from, to);
+    updateSearch(from, setName);
   }
 
   // get routes
