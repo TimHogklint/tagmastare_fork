@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import PlusMinus from "../components/PlusMins";
+
 
 
 export default function Booking() {
@@ -101,7 +103,7 @@ export default function Booking() {
 
             <input className="searchfield"
               type="search"
-              placeholder="Till"
+              placeholder="Från"
               onChange={(e) => searchFromLocations(e.target.value)}
               onFocus={() => dd_from_setIsOpen(true)}
               onBlur={() => dd_from_setIsOpen(false)}
@@ -122,7 +124,7 @@ export default function Booking() {
 
             <input className="searchfield"
               type="search"
-              placeholder="Från"
+              placeholder="Till"
               onChange={(e) => searchToLocations(e.target.value)}
               onFocus={() => dd_to_setIsOpen(true)}
               onBlur={() => dd_to_setIsOpen(false)}
@@ -142,27 +144,36 @@ export default function Booking() {
             <input className="datefield" type="date"></input>
             + lägg till återresa
           </div>
+         
           <div className="ticketcontainer">
             <div className="ticketamounts">
-              <div className="ticket vuxen">
+              <div className="travelers">
                 Vuxen
+                <PlusMinus traveler="Vuxen" /> 
               </div>
-              <div className="ticket bu">
+              <div className="travelers">
                 Barn/Ungdom
+                <PlusMinus traveler="Bu" />
+                
               </div>
-              <div className="ticket student">
+              <div className="travelers">
                 Student
+                <PlusMinus traveler="Student" />
+                
               </div>
-              <div className="ticket pensioner">
-                Pensionär
+              <div className="travelers">
+                Pensionär <PlusMinus traveler="Pensioner" />
+                
               </div>
             </div>
-            <div className="ticketbuttons">
+            
+             {/*<div className="ticketbuttons">
+               
               <div className="ticketbutton vuxen"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton bu"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton student"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton pensioner"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
-            </div>
+            </div>*/}
           </div>
         </div>
       </div>
