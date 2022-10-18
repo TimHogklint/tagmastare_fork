@@ -1,0 +1,42 @@
+
+// Work in progress !
+
+.dropdown-open
+{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    // Obviously this is unaccaptable but I rather have something to 
+    // show that is an approximation on what the end goal is.
+    left: 450px;
+    top: 190px;
+}
+
+.dropdown-closed
+{
+    display: none;
+}
+
+
+// Ooof , will have to take a look at making dropdown
+// more extendable and just "lite" styling.
+.dropdown2-open
+{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    // Obviously this is unaccaptable but I rather have something to 
+    // show that is an approximation on what the end goal is.
+    left: 450px;
+    top: 280px;
+}
+
+.dropdown2-closed
+{
+    display: none;
+}
+

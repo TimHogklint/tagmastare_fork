@@ -8,10 +8,32 @@ GET http://localhost:3000/api/customers/6336bc6b9ada6332dda44930
 
 ###
 
-// WIP
+// destination IS found inside current route.
 GET http://localhost:3000/api/seekRoute/Köping+Arboga
 
 ###
+
+// destination is not found inside current route.
+GET http://localhost:3000/api/seekRoute/Köping+Hyllie
+
+###
+
+GET http://localhost:3000/api/getUniqueStations
+
+###
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 POST http://localhost:3000/api/tickets
 Content-Type: application/json

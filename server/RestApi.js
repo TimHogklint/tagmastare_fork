@@ -1,6 +1,12 @@
-const { json } = require('express');
-const { default: mongoose } = require('mongoose');
-const { NavItem } = require('react-bootstrap');
+const {
+  json
+} = require('express');
+const {
+  default: mongoose
+} = require('mongoose');
+const {
+  NavItem
+} = require('react-bootstrap');
 const db = require('./ModelHandler');
 const Ticket = require('./models/-Ticket')
 
@@ -18,8 +24,10 @@ module.exports = class RestApi {
   handleRequestBodyJsonErrors() {
     this.app.use((error, req, res, next) =>
       error instanceof SyntaxError ?
-        res.status(400) && res.json({ error }) :
-        next()
+      res.status(400) && res.json({
+        error
+      }) :
+      next()
     );
   }
 
@@ -27,14 +35,21 @@ module.exports = class RestApi {
     await db.connect();
     this.createTablesAndViewsRoute();
     this.getBookingByDate();
+
+    this.getUniqueStations();
     this.seekRoute();
+
     this.createRouter();
   }
 
   getBookingByDate() {
     this.app.get('/api/getBookingByDate/:id', async (req, res) => {
       let model = await db.modelsByApiRoute['timeTable'];
-      let result = await model._model.find({ date: (req.params.id) }, { __v: 0 }).lean();
+      let result = await model._model.find({
+        date: (req.params.id)
+      }, {
+        __v: 0
+      }).lean();
       res.json(result)
 
     });
@@ -53,20 +68,42 @@ module.exports = class RestApi {
     this.app.all('/api/:route/:id', run);
   }
 
-  getTicketById() {
-    this.app.get('/api/tickets/:id', async (req, res) => {
-      const { id } = req.params
-      const { departureTime } = await Ticket.findById(id).select('-_id departureTime')
-      
-      res.json({
-        sucess: true,
-        departureTime
-      })
-    })
+
+
+        // Get all train routes with related stations as childern in stations.
+        let data = await model._model.find({}, {
+          _id: 0,
+          stationName: 1
+        });
+
+        // Format all stations to more workable state 
+        // ie remove its key and id.
+        const unsortedNames = [];
+        for (let i = 0; i < Object.values(data).length; i++) {
+          let nameStat = data[i]['stationName'];
+          // console.log(nameStat);
+          unsortedNames.push(nameStat);
+        }
+
+        // console.log(unsortedNames);
+
+        const names = unsortedNames;
+        const count = names =>
+          names.reduce((result, value) => ({
+            ...result,
+            [value]: (result[value] || 0) + 1
+          }), {}); // don't forget to initialize the accumulator
+        const duplicates = dict =>
+          Object.keys(dict).filter((a) => dict[a] > 1);
+
+
+        res.json(duplicates(count(names)));
+      } catch (err) {
+        res.json(err);
+      }
+    });
   }
 
-  
-  // WIP only finds a stationA and which route it belongs too. 
   seekRoute() {
     this.app.get('/api/seekRoute/:id', async (req, res) => {
 
@@ -79,145 +116,329 @@ module.exports = class RestApi {
       const stationA = splitArr[0];
       const stationB = splitArr[1];
 
-      
+
       // The end result of query; initially "None".
       let searchResult = "None";
 
       // Case #1 - Get routes that contain both stations on single 
-      try
-      {
+      try {
 
         // Using the view to connect stations to routes via ID.
         let model = await db.modelsByApiRoute['stationsInRoute'];
 
         // Get all train routes with related stations as childern in stations.
-        let result = await model._model.find( { __v: 0 }).lean();
+        let result = await model._model.find({
+          __v: 0
+        }).lean();
 
-        // Returns routes that contain a list with <stationToFind>
-        const stationAResults = this.findRouteWithStation(result,stationA);
+        let route = this.seek(result, stationA, stationB);
 
-        // This result is only important if singleRoute fails.
-        const StationBResults = this.findRouteWithStation(result,stationB);
-
-        // if this fails we will have so some more searching.
-        const singleRoute = this.singleRouteCheck(stationAResults,stationA,stationB);
-
-        if(singleRoute != 'NULL')
-        {
-          console.log( (stationA + " and " + stationB + " both exist in " + singleRoute['routeName'] + " route."));
-        }
-        else // ie must traverse to another route(s)
-          console.log("singleRoute failed");
-
-        // just debug peek at first.
-        // console.log(StationBResults[0]['routeName']);
-         res.json(singleRoute);
-      }
-      catch(err)
-      {
-          res.json("{message : err}");
+        res.json(route);
+      } catch (err) {
+        res.json("{message : err}");
       }
     });
   }
+  
+  // Ended up being a naive solution as I had so much problem 
+  // ordering my data :/.
+  // o o o
+  // In retrospect I would have taken the unique stations and 
+  // arranged via a view which routes <station> is mentioned in
+  // so
+  // Object <UNIQUE station>
+  //   | 
+  //   *--- Arr <routes> this station is referenced in. 
+  // 
+  // I feel in the end that might have been more robust.  
+  // .. yeah the whole " woulda , coulda , shoulda" rigamaroll. 
+  seek(allRoutes, origin, destination) {
 
-  findRouteWithStation(allRoutes, stationToFind)
-  {
-        // Since we can have multiple results we save 
-        // them in an array ahead of sorting them.
-        let hits = new Array();
+    let originList = this.findRoutesWithLocation(allRoutes, origin);
+    let destList = this.findRoutesWithLocation(allRoutes, destination);
 
-        for(let y = 0; y < Object.values(allRoutes).length; y++)
-        {
-          let stationsRoute = allRoutes[y];
+    console.log("---")
 
-          // Abit confusing part here 'station' is actually the list 
-          // of all stations under this trainRoute.
-          for(let x = 0 ; x < stationsRoute['station'].length; x++)
-          {
+    for (let y = 0; y < originList.length; y++)
+      console.log("Origin list #" + y + " - Route name :" + originList[y]['routeName']);
 
-            let currentStation = allRoutes[y].station[x]['stationName'];
-            // console.log(currentStation);
+    for (let x = 0; x < destList.length; x++)
+      console.log("Destination list #" + x + " - Route name :" + destList[x]['routeName']);
 
-            if(currentStation === stationToFind){
-             //searchResult  =  ("Found " + stationToFind + " in route " + allRoutes[y].routeName);
-             hits.push(allRoutes[y]);
-            }
-          }
+
+    let bestRoute = new Array();
+
+    // make sure were not already on destination route(s)
+    for (let s = 0; s < originList.length; s++) {
+      let stations = originList[s].station;
+
+      let startIndex = this.getStationIndex(stations, origin);
+      let nStations = new Array();
+
+      for (let d = startIndex; d < stations.length; d++) 
+      {
+        let currStation = stations[d]['stationName'];
+
+        if (currStation == destination) {
+
+          // I only do this so stations before our origins are not in the array.
+          nStations.push(stations[d]);
+          originList[s].station = nStations;
+
+          bestRoute.push(originList[s]);
+
+          break;
         }
-
-        return hits;
-  }
-
-  singleRouteCheck(stationAResults, origin, destination)
-  {
-        // A valid station in same list must be that of a higher index then 
-        // then station A. Otherwise its unreachable in that list / invalid.
-        // - 
-        // 
-        let result = "NULL";
-
-        let simpleRoute = false;
-        for(let y = 0; y < Object.values(stationAResults).length; y++)
+        else
         {
-          let valid = false;
+          nStations.push(stations[d]);
+        }
+      }
+    }
 
-          let stationsRoute = stationAResults[y];
+    // we found destination in origin(s) - pick route with fewest stations
+    if (bestRoute.length > 0) {
+      console.log("Lists to inspect " + bestRoute.length);
 
-          // Abit confusing part here 'station' is actually the list 
-          // of all stations under this trainRoute.
-          for(let x = 0 ; x < stationsRoute['station'].length; x++)
+      let shortestPath = this.getSmallestArray(bestRoute);
+      // Why is station before origin left ? 
+      console.log("Shortest list " + shortestPath['routeName'] + " # " + shortestPath.station.length + " stations.");
+      //console.log(shortestPath.station);
+
+      return bestRoute;
+    } 
+    // We need to search deeper
+    else 
+    {
+      // clean
+      bestRoute = new Array();
+      console.log("ELSE SEARCH");
+
+      // // test all origin on each destination
+      // // while / should only run if current route dont have our destination.
+      //  let swapLocation = this.findClosestSwap(originList[0],destList[0],origin);
+      // console.log("Swap location : " + swapLocation); // at index etc.
+      let destCount = destList.length -1;
+      let bestLength = 99;
+
+      while(destCount > -1)
+      {
+        // - Find shared station
+        for(let x = 0; x < originList.length ; x++)
+        {
+
+          let listA = originList[x];
+          let listB = destList[destCount];
+
+          let path = this.findPath(listA,listB,origin,destination);
+
+          // I only get back stations :/ I dont want that.
+          // should be two "routes" with pruned stations
+          
+          if(path != null)
           {
-
-            let currentStation = stationAResults[y].station[x]['stationName'];
-            // console.log(currentStation);
-
-            // We must have found stationA first
-
-            // Important we find our entry point first lest we board a train going away 
-            // from our intended destination 
-            if(currentStation === origin)
+            // Should always be 2 origin route + destination route 
+            // with clipped stations.
+            if(path.length == 2)
             {
-              valid = true;
-            }
+              // let checkIndexDebug = 1;
 
-            if(valid)
-            {
-              if(currentStation === destination)
+              // console.log("##_>#" + path[checkIndexDebug]['routeName']);
+
+              // let rTest = path[checkIndexDebug];
+  
+              // for(let s = 0; s < rTest.station.length; s++)
+              // console.log("Station -> " + rTest.station[s]['stationName']);
+
+
+              let totalLenght = (path[0].station.length + path[1].station.length);
+
+              if(totalLenght < bestLength)
               {
-                //console.log( ("Found " + destination + " in route " + stationAResults[y].routeName));
+                bestRoute = new Array();
+                bestRoute = path;
 
-                result = stationAResults[y];
-
-                // abit redunatant use of bool when you can just check if 
-                // result is empthy.
-                simpleRoute = true;
-                break;
+                bestLength = totalLenght;
               }
             }
-
-            // if we found our result we break out of loops.
-            if(simpleRoute)
-              break;
+            else
+            {
+              // if this pops , then things are bad.
+              console.log("path was not null but did not contain origin/dest list");
+            }
           }
         }
 
+        // - Check if this path shorter then previous
+        destCount -= 1;
+      }
 
-        return result;
+      // at this point bestRoute should be filled with 
+
+      console.log("Jump route end");
+      return bestRoute;
+    }
+
+    // This area is unreachable.
+    console.log("Something terrible happend.");
+  }
+
+  findPath(orgList, destList, origin,destination) {
+
+
+    let stationAList = orgList.station;
+    let stationBList = destList.station;
+
+    let startIndex = this.getStationIndex(stationAList, origin);
+
+    let sharedStation = null;
+
+    for (let y = startIndex; y < stationAList.length; y++) 
+    {
+      let currStation = stationAList[y];
+
+      for (let x = 0; x < stationBList.length; x++) {
+
+        let destStation = stationBList[x];
+
+        // find shared station.
+        if (currStation['stationName'] === destStation['stationName']) 
+        {
+          sharedStation = currStation['stationName'];
+          break;
+        }
+      }
+    }
+
+    if(sharedStation != null)
+    {
+      console.log("Shared station found " + sharedStation);
+      // what we know as of this point
+      // - origin , destination 
+      // - shared station between origin,destination 
+
+      let originIndex = this.getStationIndex(stationAList,origin);
+      // console.log("Origin index : " + originIndex);
+
+      let swapIndexA = this.getStationIndex(stationAList,sharedStation);
+      // console.log("SwapA index : " + swapIndexA + " at " + sharedStation + " in route " + orgList['routeName']);
+
+      let routeAStations = orgList.station.slice(originIndex,swapIndexA+1);
+
+
+      let entryPoint = this.getStationIndex(stationBList,sharedStation);
+      //  console.log("Entered destination route at " + entryPoint + " index in route " + destList['routeName']);
+
+      let destinationIndex = this.getStationIndex(stationBList,destination);
+      // console.log("Destination located at " + destinationIndex + " inside route " + destList['routeName']);
+
+      let routeBStations = destList.station.slice(entryPoint,destinationIndex+1);
+      
+
+      // just for safety we make sure path makes sense in terms of order.
+      // ie enter after destination yet expect train to drive backwards to our
+      // target.
+      if(originIndex < swapIndexA && entryPoint < destinationIndex)
+      {
+        let packedRoute = new Array();
+        packedRoute.push(orgList);
+        packedRoute[0].station  = routeAStations;
+  
+        // Comes up enmpty :S 
+        packedRoute.push(destList);
+        packedRoute[1].station = routeBStations;
+  
+        return packedRoute;
+      }
+      else 
+        return null;
+    }
+    else
+    {
+    // If it get to here - it could not find a shared station and should return null
+   // console.log("No match found");
+    return null;
+    }
+
+  }
+
+  findRoutesWithLocation(allRoutes, stationToFind) {
+    // Since we can have multiple results we save 
+    // them in an array ahead of sorting them.
+    let hits = new Array();
+
+    for (let y = 0; y < Object.values(allRoutes).length; y++) {
+      let stationsRoute = allRoutes[y];
+
+      // Abit confusing part here 'station' is actually the list 
+      // of all stations under this trainRoute.
+      for (let x = 0; x < stationsRoute['station'].length; x++) {
+
+        let currentStation = allRoutes[y].station[x]['stationName'];
+        // console.log(currentStation);
+
+        if (currentStation === stationToFind) {
+          //searchResult  =  ("Found " + stationToFind + " in route " + allRoutes[y].routeName);
+          hits.push(allRoutes[y]);
+        }
+      }
+    }
+
+    return hits;
+  }
+  
+  getStationIndex(list, location) {
+
+    var data = list;
+    var index = -1;
+    var val = location;
+
+    // fetches our starting point
+    var filteredObj = data.find(function (item, i) {
+      if (item['stationName'] === val) {
+        index = i;
+        return i;
+      }
+    });
+
+    return index;
+  }
+
+  getSmallestArray(list) {
+    let lowestLenghtIndex = 0;
+    let lowestLenght = 99;
+
+    for (let l = 0; l < list.length; l++) {
+
+
+      if (list[l].station.length < lowestLenght) {
+
+        lowestLenghtIndex = l;
+        lowestLenght = list[l].station.length;
+      }
+
+      //console.log("Route : " + list[l]['routeName'] + " " + lowestLenght);
+    }
+
+    return list[lowestLenghtIndex];
   }
 
   async route(req, res) {
-    let { route, id } = req.params;
+    let {
+      route,
+      id
+    } = req.params;
     let method = req.method.toLowerCase();
     let model = await db.modelsByApiRoute[route];
     if (!model) {
       res.status(404);
-      res.json({ error: 'No such route' });
-    }
-    else {
+      res.json({
+        error: 'No such route'
+      });
+    } else {
       this[method](model, id, req, res);
     }
   }
-
 
   // async get(m, id, req, res) {
   //   id = !isNaN(+id) ? id : null;
@@ -232,25 +453,32 @@ module.exports = class RestApi {
       id = !isNaN(+id) ? id : null;
 
       let result = await m._model
-        .find({}, { __v: 0 }).lean();
+        .find({}, {
+          __v: 0
+        }).lean();
       // ? why unneccesary encapsulaton of result in an
       // object as message property
 
       // res.json({ message : result});
 
       res.json(result);
-    }
-    else {
+    } else {
       try {
-        const found = await m._model.find({ _id: (req.params.id) }, { __v: 0 }).lean();
+        const found = await m._model.find({
+          _id: (req.params.id)
+        }, {
+          __v: 0
+        }).lean();
         if (found != null) {
           res.json(found);
-        }
-        else
-          res.status(404).json({ message: err })
-      }
-      catch (err) {
-        res.status(500).json({ messsage: err });
+        } else
+          res.status(404).json({
+            message: err
+          })
+      } catch (err) {
+        res.status(500).json({
+          messsage: err
+        });
       }
     }
   }
@@ -269,21 +497,24 @@ module.exports = class RestApi {
   async delete(m, id, req, res) {
     if (!req.params.id) {
       res.json("You need to enter an Id of the object you want to delete")
-    }
-    else {
+    } else {
       let model = await db.modelsByApiRoute['tickets'];
       if (m === model) {
-        let query = await m._model.find({ _id: (req.params.id) }).select('_id');
-        let ticketToRemove = await m._model.findByIdAndRemove({ _id: (req.params.id) });
+        let query = await m._model.find({
+          _id: (req.params.id)
+        }).select('_id');
+        let ticketToRemove = await m._model.findByIdAndRemove({
+          _id: (req.params.id)
+        });
 
         res.json("Du har avbokat biljetten med nummer: " + query)
-      }
-      else {
-        let objectToRemove = await m._model.findByIdAndRemove({ _id: (req.params.id) });
+      } else {
+        let objectToRemove = await m._model.findByIdAndRemove({
+          _id: (req.params.id)
+        });
         if (!objectToRemove) {
           res.json("That object does not exist in the database")
-        }
-        else {
+        } else {
           res.json("You have removed " + objectToRemove)
         }
       }
@@ -296,7 +527,9 @@ module.exports = class RestApi {
     let params = url.split('?', 2)[1];
     let keyVal = {};
     let ors = [];
-    if (!params) { return [keyVal, ors] };
+    if (!params) {
+      return [keyVal, ors]
+    };
     for (let part of params.split('&')) {
       part = decodeURI(part);
       let operator = '';
@@ -306,13 +539,19 @@ module.exports = class RestApi {
           break;
         }
       }
-      if (!operator) { continue; }
+      if (!operator) {
+        continue;
+      }
       let [key, val] = part.split(operator);
       let or = key[0] === '|';
       or && (key = key.slice(1));
       ors[key] = or;
       val = isNaN(+val) ? val : +val;
-      if (operator !== '=') { val = { [operator]: val } };
+      if (operator !== '=') {
+        val = {
+          [operator]: val
+        }
+      };
       keyVal[key] = val;
     }
     return [keyVal, ors];
