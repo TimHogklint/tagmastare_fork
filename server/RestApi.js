@@ -8,7 +8,7 @@ const {
   NavItem
 } = require('react-bootstrap');
 const db = require('./ModelHandler');
-const Ticket = require('./models/-Ticket')
+const Customer = require('../server/models/-Customer')
 
 
 
@@ -68,7 +68,12 @@ module.exports = class RestApi {
     this.app.all('/api/:route/:id', run);
   }
 
+  getUniqueStations() {
+    this.app.get('/api/getUniqueStations', async (req, res) => {
+      try {
 
+        // Using the view to connect stations to routes via ID.
+        let model = await db.modelsByApiRoute['station'];
 
         // Get all train routes with related stations as childern in stations.
         let data = await model._model.find({}, {
