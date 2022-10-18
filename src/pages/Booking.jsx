@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PlusMinus from "../components/PlusMins";
+//import PlusMinus from "../components/PlusMins";
+import TicketTravelers from "../components/Travelers";
+
 
 
 
 export default function Booking() {
-
   const [locations, setLocations] = useState([]);
   const [locationMatch, setLocationMatch] = useState([]);
+  const [travelerArray, setTravelerArr] = useState([]);
+ useEffect(() => {
+    async function fetchData() {
 
+    }
+    fetchData();
+  }, [travelerArray]);
   let [route, setRoute] = useState([]);
 
   // This is quite bad - I basically "recoded" dropdown 
@@ -36,6 +43,7 @@ export default function Booking() {
 
   const searchFromLocations = (text) => {
     setFrom(text);
+  
 
     let matches = locations.filter((location) => {
       const regex = new RegExp(`${text}`, "gi");
@@ -48,6 +56,7 @@ export default function Booking() {
 
   const searchToLocations = (text) => {
     setTo(text);
+  
 
     let matches = locations.filter((location) => {
       const regex = new RegExp(`${text}`, "gi");
@@ -79,7 +88,7 @@ export default function Booking() {
         setRoute(json);
       })
   }
-
+  
   // Controls the dropdown menu on search fields; I would like 
   // to encapsulate the dropdown into a component in the future.
   const [dd_from_isOpen, dd_from_setIsOpen] = useState(false);
@@ -142,10 +151,13 @@ export default function Booking() {
             </div>
 
             <input className="datefield" type="date"></input>
-            + lägg till återresa
+            
           </div>
-         
-          <div className="ticketcontainer">
+         <TicketTravelers
+                  setTravelerArr={setTravelerArr}
+                  travelerArray={travelerArray}
+                />
+          {/*<div className="ticketcontainer">
             <div className="ticketamounts">
               <div className="travelers">
                 Vuxen
@@ -165,7 +177,7 @@ export default function Booking() {
                 Pensionär <PlusMinus traveler="Pensioner" />
                 
               </div>
-            </div>
+            </div>/*}
             
              {/*<div className="ticketbuttons">
                
@@ -173,8 +185,8 @@ export default function Booking() {
               <div className="ticketbutton bu"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton student"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton pensioner"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
-            </div>*/}
-          </div>
+            </div>
+          </div>*/}
         </div>
       </div>
       <div className="button">
