@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { Button } from '../components/bootstrap-components'
 import userIcon from '../images/user.png';
+//const bcrypt = require('bcrypt')
 
 
 export default function LoggIn() {
@@ -13,8 +14,23 @@ export default function LoggIn() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    console.log(email, password)
+/*       if (!email || !password) {
+      throw Error('Alla fälten måste vara ifyllda')
+      }
+  
+      const user = await this.fintOne({email})
+      if (!user) {
+      throw Error ('Fel mejladress')
+      }
+
+      const match = await bcrypt.compare(password, user.password)
+      if (!match) {
+      throw Error ('Fel lösenord')
+      }
+    return user */
   }
+    
+
 
   return (
     <div className="login-page">
@@ -48,7 +64,7 @@ export default function LoggIn() {
       <h3>Har du ingen konto? Registrera dig här.</h3>
 
       <Button className='logg-in-button'>
-        <Link className="register-link" to="/register">Registrera</Link>
+        <Link className="button-link" to="/register">Registrera</Link>
       </Button>
       </form>
     </div>

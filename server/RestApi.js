@@ -2,6 +2,7 @@ const { json } = require('express');
 const { default: mongoose } = require('mongoose');
 const { NavItem } = require('react-bootstrap');
 const db = require('./ModelHandler');
+const Ticket = require('./models/-Ticket')
 
 
 
@@ -52,7 +53,17 @@ module.exports = class RestApi {
     this.app.all('/api/:route/:id', run);
   }
 
-
+  getTicketById() {
+    this.app.get('/api/tickets/:id', async (req, res) => {
+      const { id } = req.params
+      const { departureTime } = await Ticket.findById(id).select('-_id departureTime')
+      
+      res.json({
+        sucess: true,
+        departureTime
+      })
+    })
+  }
 
   
   // WIP only finds a stationA and which route it belongs too. 

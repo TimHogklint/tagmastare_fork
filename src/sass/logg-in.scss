@@ -1,5 +1,6 @@
 .login-page,
-.register-page {
+.register-page,
+.get-ticket-page {
   display: flex; 
   flex-direction: column;
   font-family: 'inter';
@@ -8,7 +9,9 @@
 .login-section,
 .login-form,
 .register-section,
-.register-form {
+.register-form,
+.get-ticket-section,
+.ticket-form {
   display: flex; 
   flex-direction: column;
   align-items: center;
@@ -25,6 +28,7 @@
   font-size: 170%;
 }
 
-.register-link {
+.button-link {
   text-decoration: none;
+  color: black;
 }

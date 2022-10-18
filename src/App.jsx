@@ -16,31 +16,14 @@ import Register from "./pages/Register"
 import GetTicket from "./pages/GetTicket"
 import Payment from "./pages/Payment"
 import Qr from "./pages/QrTestPage"
+import MyTicket from './pages/MyTicket'
 
 //Import connection to design
 //All files created in mapp sass should be imported in main.scss
 import "./sass/main.scss"
 
-//Commenterar bort det för att kunna testa DB
-/* function App() {
-  return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
-  );
-} */
 
-
-//Test DB
 export default function App() {
-  /*   const [data, setData] = useState("Hello World!")
-    useEffect(() => {
-      getTest()
-        .then((res) => {
-        setData(res.message)
-        })
-      .catch((err) => console.log(err))
-    }, []) */
 
   return (
     <main>
@@ -56,7 +39,8 @@ export default function App() {
           <Route path="/payment" element={<Payment />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/get-ticket" element={<GetTicket />}></Route>
-          <Route path="/qr" element={<Qr />}></Route>
+          <Route path="/qr" element={ <Qr /> }></Route>
+          <Route path="/get-ticket/my-ticket" element={<MyTicket />}></Route>
         </Routes>
 
       </BrowserRouter>

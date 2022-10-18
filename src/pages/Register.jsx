@@ -3,10 +3,7 @@ import { Button } from '../components/bootstrap-components'
 import { Link } from "react-router-dom";
 import { useSignup } from "../hooks/userSignup"
 import userIcon from '../images/user.png';
-//const User = require('../../server/models/-User')
-
-
-
+const validator = require('validator')
 
 
 export default function Register(){
@@ -15,21 +12,27 @@ export default function Register(){
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const {  error, isLoading } = useSignup()
-
- /*  const createUser = async (req, res) => {
-    const { customerName, email, phone, password } = req.body
-    
-      try {
-      const user = await User.create({ customerName, email, phone, password })
-      res.status(200).json(user)
-    } catch (error) {
-      res.status(400).json({error: error.message})
-    }
-  } */
+  
   
   const handleSubmit = async (e) => {
     e.preventDefault()
       const user = {customerName, email, phone, password}
+
+      if (!customerName || !email || !phone || !password ) {
+        throw Error('Alla fälten måste fyllas i')
+      }
+      if (!validator.isEmail(email)) {
+        throw Error ('Email är inte giltig')
+      }
+      if (!validator.isStrongPassword(password)) {
+        throw Error ('Lösenord är inte stark')
+      }
+
+      const exists = await this.findOne({ email })
+      if (exists) {
+        throw Error ('Email används redan')
+      }
+
 
     const response = await fetch('/api/users', {
       method: 'POST',
