@@ -39,6 +39,8 @@ module.exports = class RestApi {
     this.getUniqueStations();
     this.seekRoute();
 
+    this.getTimeTableByRouteId();
+
     this.createRouter();
   }
 
@@ -61,6 +63,37 @@ module.exports = class RestApi {
     });
   }
 
+  // Similar to above but looks for the routeId instead - used to populate departures
+  // when user is searching for from/to on the booking page.
+  getTimeTableByRouteId() {
+    this.app.get('/api/getTimeTableByRouteId/:id', async (req, res) => {
+      let model = await db.modelsByApiRoute['timeTable'];
+      let result = await model._model.find({
+        routeId: (req.params.id)
+      }, {
+        __v: 0
+      }).lean();
+      res.json(result)
+
+    });
+  }
+
+  createTablesAndViewsRoute() {
+    this.app.get('/api/tablesAndViews', async (req, res) => {
+      res.json("testing")
+    });
+  }
+
+  getTimeTablesByRoute()
+  {
+    this.app.get('/api/timeTableByRouteId/:id', async (req, res) => {
+      try {
+        res.json("I ran w/ " +  req.params.id);
+      } catch (err) {
+        res.json(err);
+      }
+    });
+  }
 
   createRouter() {
     let run = (req, res) => this.route(req, res);
