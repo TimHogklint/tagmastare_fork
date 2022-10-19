@@ -312,16 +312,10 @@ export default function Booking() {
           </div>
         </div>
       
-<<<<<<< HEAD
-      {/* Hej patrik , inför sprint review så lägger jag till en länk till payment sidan här 
-        Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
+     
+
+     
       <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
-=======
-     
-
-     
->>>>>>> d0f46c62a8f0adf07dadebafe230ef5a5a92ce43
-
       {/* <br></br> */}
       {/* <Link className="temp-link-seatpick" to="/seat-booking">Temp goto seat-picker</Link> */}
 
