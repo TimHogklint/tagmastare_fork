@@ -315,7 +315,7 @@ export default function Booking() {
      
 
      
-      <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
+      {/* <Link className="temp-pay-link" to="/payment">Temp goto payment</Link> */}
       {/* <br></br> */}
       {/* <Link className="temp-link-seatpick" to="/seat-booking">Temp goto seat-picker</Link> */}
 
@@ -382,10 +382,6 @@ export default function Booking() {
         }
 
       </div> */}
- <div className="button">
-        <Button className="srbutton">Sök Resa</Button>
-      </div>
-       <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
 
     </div>
   )
