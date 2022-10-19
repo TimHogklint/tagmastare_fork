@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-//import PlusMinus from "../components/PlusMins";
-import TicketTravelers from "../components/Travelers";
-
+import PlusMinus from "../components/PlusMins";
 
 
 
 export default function Booking() {
+
   const [locations, setLocations] = useState([]);
   const [locationMatch, setLocationMatch] = useState([]);
-  const [travelerArray, setTravelerArr] = useState([]);
- useEffect(() => {
-    async function fetchData() {
 
-    }
-    fetchData();
-  }, [travelerArray]);
   let [route, setRoute] = useState([]);
 
   // This is quite bad - I basically "recoded" dropdown 
@@ -43,7 +36,6 @@ export default function Booking() {
 
   const searchFromLocations = (text) => {
     setFrom(text);
-  
 
     let matches = locations.filter((location) => {
       const regex = new RegExp(`${text}`, "gi");
@@ -56,7 +48,6 @@ export default function Booking() {
 
   const searchToLocations = (text) => {
     setTo(text);
-  
 
     let matches = locations.filter((location) => {
       const regex = new RegExp(`${text}`, "gi");
@@ -88,11 +79,15 @@ export default function Booking() {
         setRoute(json);
       })
   }
-  
+
   // Controls the dropdown menu on search fields; I would like 
   // to encapsulate the dropdown into a component in the future.
   const [dd_from_isOpen, dd_from_setIsOpen] = useState(false);
   const [dd_to_isOpen, dd_to_setIsOpen] = useState(false);
+
+  function onClickDepCard() {
+    console.log("Clicked departure card")
+  }
 
   return (
     <div className="main">
@@ -151,13 +146,10 @@ export default function Booking() {
             </div>
 
             <input className="datefield" type="date"></input>
-            
+            + lägg till återresa
           </div>
-         <TicketTravelers
-                  setTravelerArr={setTravelerArr}
-                  travelerArray={travelerArray}
-                />
-          {/*<div className="ticketcontainer">
+         
+          <div className="ticketcontainer">
             <div className="ticketamounts">
               <div className="travelers">
                 Vuxen
@@ -177,7 +169,7 @@ export default function Booking() {
                 Pensionär <PlusMinus traveler="Pensioner" />
                 
               </div>
-            </div>/*}
+            </div>
             
              {/*<div className="ticketbuttons">
                
@@ -185,8 +177,8 @@ export default function Booking() {
               <div className="ticketbutton bu"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton student"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton pensioner"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
-            </div>
-          </div>*/}
+            </div>*/}
+          </div>
         </div>
       </div>
       <div className="button">
@@ -197,25 +189,37 @@ export default function Booking() {
         Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
       <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
 
-      {/* Autocomplete */}
 
-      {/* <div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <h4>auto-complete candidates</h4>
-          {locationMatch.map(location => {
-            return (
-              // for some reason react will complain about <text> ? 
-              // perhaps locationMatch isent full and thats the problem.
-              <text>{location}</text>
-            )
-          })}
+  {/* Depature cards , what contains the departure elements*/}
+  <div style={{ display: "block", flexDirection: "column"}}>
+       <h3 style={{color: "black"}}>Avgångar</h3>
 
-        </div>
+        <div className="departure-card" onClick={() => onClickDepCard()} style={{ display: 'block' ,  justifyContent: 'center' ,alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius:"1px" , marginLeft: "150px",  marginRight: "150px"}}>
+        <h3>Från : {from} - Till : {to}</h3>
+        <h3>Tid : 13:00 Söndag Datum</h3>
+        <h3>Byten : {route.length-1}</h3>
+
+        {route.map(item => 
+        {
+          let stations = new Array();
+
+          item.station.forEach(element => {
+            stations.push(element['stationName'] + ",");
+          });
+
+          return (<>
+            <h3>Via {item['routeName']}</h3>
+            {/* <h3 className="departure-stations">Path : {stations}</h3> */}
+            </>
+          )
+        })
+        }
+
+    </div>
       </div>
-       */}
 
-
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      {/* Debug area */}
+      {/* <div style={{ display: "flex", flexDirection: "column" }}>
        <h3 style={{color: "red"}}>Debug panel</h3>
 
 
@@ -235,7 +239,9 @@ export default function Booking() {
         })
         }
 
-      </div>
+      </div> */}
+
+      
     </div>
   )
 }
