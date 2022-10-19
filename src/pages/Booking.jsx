@@ -279,9 +279,7 @@ export default function Booking() {
       
      
 
-      {/* Hej patrik , inför sprint review så lägger jag till en länk till payment sidan här 
-        Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
-      <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
+     
 
 
       {timeTable.map(departure => {
@@ -350,7 +348,7 @@ export default function Booking() {
  <div className="button">
         <Button className="srbutton">Sök Resa</Button>
       </div>
-      
+       <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
 
     </div>
   )
