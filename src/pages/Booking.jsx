@@ -69,39 +69,36 @@ export default function Booking() {
     updateSearch(from, setName);
   }
 
-  // Handle a single routes offsets.
-  function getRouteTimeOffsets(departure,routeElement)
-  {
-
-    // <h3>Tid : {locationTime} - Avgång : {locationTime+departureOffset} </h3>
-
-    let startDeparture = departure['startHour'] * 100;
-    // Origin offset - first index of our route path. Minutest from start
-    let arrivalMin = routeElement['station'][0]['arrivalOffset'];
-    // When train leaves.
-    let departureMin = routeElement['station'][0]['departureOffset'];
-
-    let departureOffset = departureMin - arrivalMin;
-
-    let locationTime = startDeparture += arrivalMin;
-
-    return ({locationTime, departureOffset})
+  function toHoursAndMinutes(totalMinutes) {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return { hours, minutes };
   }
 
-  // Format time value to a string.
-  function timeToFormat(time){
+  // Handle a single routes offsets.
+  function getRouteTimeOffsets(departure, routeElement) 
+  {
+    // arrival time.
 
-    let timeFormat = JSON.stringify(time);
-    console.log("TIME LENGHT : " + timeFormat.length);
+    let startDeparture = departure['startHour'];
 
-    if(timeFormat.length < 4){
-      timeFormat = ("0"+timeFormat);
-    }
+    let arrivalMin = routeElement['station'][0]['arrivalOffset'];
 
-    // finally add the : between hh:mm
-    var timeFormatted = timeFormat.slice(0, 2) + ":" + timeFormat.slice(2);
+    let arrTime = toHoursAndMinutes(startDeparture * 60 + arrivalMin);
 
-    return timeFormatted
+    let arrivalTime =  (arrTime.hours + ":" + arrTime.minutes);
+
+    // departure time
+
+    let departureMin = routeElement['station'][0]['departureOffset'];
+
+    let offset = departureMin - arrivalMin; // diffrence.
+    let destTime = toHoursAndMinutes(startDeparture * 60 + (arrivalMin+offset));
+
+    let departTime =  (destTime.hours + ":" + destTime.minutes);
+
+
+    return ({ arrivalTime, departTime })
   }
 
   // get routes search timetables aswell.
@@ -298,18 +295,14 @@ export default function Booking() {
 
 
       {timeTable.map(departure => {
-        if (timeTable.length > 0) 
-        {
-          
-          let routeTime = getRouteTimeOffsets(departure,route[0]);
+        if (timeTable.length > 0) {
 
-          let formatArrival  = timeToFormat( routeTime.locationTime);
-          let formatDeparture =  timeToFormat( (routeTime.locationTime + routeTime.departureOffset));
+          let routeTime = getRouteTimeOffsets(departure, route[0]);
 
           return (<>
             <div className="departure-card" onClick={() => onClickDepCard()} style={{ display: 'block', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius: "1px", marginLeft: "150px", marginRight: "150px" }}>
               <h3>Från : {from} - Till : {to}</h3>
-              <h3>Tid : {formatArrival} - Avgång : {formatDeparture} </h3>
+              <h3>Tid : {routeTime.arrivalTime} - Avgång : {routeTime.departTime} </h3>
 
               {route.map(item => {
                 let stations = new Array();
