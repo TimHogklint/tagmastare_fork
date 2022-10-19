@@ -109,13 +109,7 @@
     outline: 0px;
 }
 
-.cc_ellipseIcon {
-    position: absolute;
-    top: 15px;
-    left: 4px;
-    width: 10px;
-    height: 10px;
-}
+
 
 .kortnummer-input {
     text-align: center;
@@ -190,9 +184,11 @@
 }
 
 .kortDiv {
+    
     position: absolute;
     top: 12px;
-    left: 20px;
+   right: 57.5%;
+   top: 35%;
     display: inline-block;
     width: 325px;
     height: 25px;
@@ -200,13 +196,6 @@
     outline: 0px;
 }
 
-.ellipseIcon {
-    position: absolute;
-    top: 17px;
-    left: 5px;
-    width: 10px;
-    height: 10px;
-}
 
 .creditcard-menu {
     // border: 3px solid rgb(255, 9, 9);
@@ -215,7 +204,7 @@
     margin: 0px;
 }
 
-.card-dropdown-box {
+.cardInputBox {
     position: relative;
     border-radius: 10px;
     border: 1px solid #000;
@@ -240,14 +229,6 @@
     object-fit: cover;
 }
 
-.swish_ellipseIcon {
-    position: absolute;
-    top: 15px;
-    left: 4px;
-    width: 10px;
-    height: 10px;
-}
-
 
 
 .swish_frameDiv {
@@ -260,6 +241,7 @@
     overflow: hidden;
     margin: 0.5em;
     padding: 1em;
+}
 
     .swish_swishInputBox {
         box-sizing: border-box;
@@ -268,13 +250,21 @@
         text-align: left;
         height: 50px;
         border: none;
+    }
 
         .swishInput {
-            border: none;
-            outline: 0px;
-        }
-    }
-}
+            position: absolute;
+                top: 12px;
+                right: 27.0%;
+                top: 35%;
+                display: inline-block;
+                width: 325px;
+                height: 25px;
+                border: none;
+                outline: 0px;}
+           
+            
+       
 
 .comfirm-group {
     // border: 3px solid rgb(94, 0, 245); debug border.
