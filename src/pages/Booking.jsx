@@ -95,6 +95,10 @@ export default function Booking() {
 
     let arrTime = toHoursAndMinutes(startDeparture * 60 + arrivalMin);
 
+    if(arrTime.hours >= 24){
+      arrTime.hours = arrTime.hours - 24;
+    }
+
     let arrivalTime =  (arrTime.hours + ":" + arrTime.minutes);
 
     // departure time
@@ -102,7 +106,11 @@ export default function Booking() {
     let departureMin = routeElement['station'][0]['departureOffset'];
 
     let offset = departureMin - arrivalMin; // diffrence.
+
     let destTime = toHoursAndMinutes(startDeparture * 60 + (arrivalMin+offset));
+    if(destTime.hours >= 24){
+      destTime.hours = destTime.hours - 24;
+    }
 
     let departTime =  (destTime.hours + ":" + destTime.minutes);
 
