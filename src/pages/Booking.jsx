@@ -9,14 +9,13 @@ export default function Booking() {
   const [locations, setLocations] = useState([]);
   const [locationMatch, setLocationMatch] = useState([]);
 
+  // Where route data is stored for the users ticket.
   let [route, setRoute] = useState([]);
+  // Used in concert with above to print how many departures there are that day.
+  let [timeTable, setTimeTable] = useState([]);
 
-  // This is quite bad - I basically "recoded" dropdown 
-  // component twice here. I just wanna get to the route 
-  // display - however I should go back and encapsulate 
-  // the dropdown into a component.
-  //
-  // first dropdown list
+  // If I had time I would have created a dropdown 
+  // component for these. /Tim 
   const [from, setFrom] = useState([]);
   // second dropdown list
   const [to, setTo] = useState([]);
@@ -31,6 +30,8 @@ export default function Booking() {
           setLocations(json);
         })
     };
+
+
     loadLocations();
   }, []);
 
@@ -68,15 +69,86 @@ export default function Booking() {
     updateSearch(from, setName);
   }
 
-  // get routes
+  // get routes search timetables aswell.
   function updateSearch(from, to) {
     console.log("SEARCH -> " + "http://localhost:3000/api/seekRoute/" + from + "+" + to);
+    let routeId = "err";
+    let routeName = "err";
 
+    // First I get the route AND update to our from,to variables.
     fetch("http://localhost:3000/api/seekRoute/" + from + "+" + to)
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
         setRoute(json);
+
+        // console.log("TEXT : " + json[0]['_id']);
+        routeId = json[0]['_id'];
+        routeName = json[0]['routeName'];
+
+        // Set current route timeTables based on user location in our trainRoute.
+        if (routeId != "err") {
+          // Get timeTable
+          fetch("http://localhost:3000/api/getTimeTableByRouteId/" + routeId)
+            .then((res) => res.json())
+            .then((json) => {
+
+              // Even if this succeeds - we have not populated enough timetable entries 
+              // per route. In that case I will fill them in so all routes have atleast 
+              // three.
+              //..
+              // For now only "Göteborg C - Malmö Hyllie (via Malmö C)" have four entries
+              // for the days 24,25,26,27 October.
+              console.log("Timetable success");
+              console.log(json);
+
+              if (json.length != 0) {
+                // use the data.
+                console.log(routeName + " have timetable data. Lenght " + json.length);
+                setTimeTable(json);
+              }
+              else {
+                console.log(routeName + " no timeTables for that route - make some up.")
+
+                // For now Im thinking about the date.
+                // startHour counts forward from midnight.
+                const mockTimeTable =
+                  [
+                    {
+                      _id: "mocked timetable",
+                      startHour: 6, // start at midnight 
+                      startMinute: 0,
+                      runsWeekends: true,
+                      date: "2022-10-20T00:00:00.000Z",
+                      routeId: routeId
+                    },
+                    {
+                      _id: "mocked timetable",
+                      startHour: 12,
+                      startMinute: 25,
+                      runsWeekends: true,
+                      date: "2022-10-20T00:00:00.000Z",
+                      routeId: routeId
+                    },
+                    {
+                      _id: "mocked timetable",
+                      startHour: 18,
+                      startMinute: 25,
+                      runsWeekends: true,
+                      date: "2022-10-20T00:00:00.000Z",
+                      routeId: routeId
+                    },
+                  ]
+
+                setTimeTable(mockTimeTable);
+                console.log(mockTimeTable);
+              }
+            })
+        }
+        else {
+          console.log("Could not fetch timetable due to invalid routeId");
+          setTimeTable([]);
+        }
       })
   }
 
@@ -84,6 +156,10 @@ export default function Booking() {
   // to encapsulate the dropdown into a component in the future.
   const [dd_from_isOpen, dd_from_setIsOpen] = useState(false);
   const [dd_to_isOpen, dd_to_setIsOpen] = useState(false);
+
+  function onClickDepCard() {
+    console.log("Clicked departure card")
+  }
 
   return (
     <div className="main">
@@ -144,30 +220,30 @@ export default function Booking() {
             <input className="datefield" type="date"></input>
             + lägg till återresa
           </div>
-         
+
           <div className="ticketcontainer">
             <div className="ticketamounts">
               <div className="travelers">
                 Vuxen
-                <PlusMinus traveler="Vuxen" /> 
+                <PlusMinus traveler="Vuxen" />
               </div>
               <div className="travelers">
                 Barn/Ungdom
                 <PlusMinus traveler="Bu" />
-                
+
               </div>
               <div className="travelers">
                 Student
                 <PlusMinus traveler="Student" />
-                
+
               </div>
               <div className="travelers">
                 Pensionär <PlusMinus traveler="Pensioner" />
-                
+
               </div>
             </div>
-            
-             {/*<div className="ticketbuttons">
+
+            {/*<div className="ticketbuttons">
                
               <div className="ticketbutton vuxen"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
               <div className="ticketbutton bu"><button className="plusbutton">+</button>0<button className="minusbutton">-</button></div>
@@ -185,25 +261,48 @@ export default function Booking() {
         Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
       <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
 
-      {/* Autocomplete */}
 
-      {/* <div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <h4>auto-complete candidates</h4>
-          {locationMatch.map(location => {
-            return (
-              // for some reason react will complain about <text> ? 
-              // perhaps locationMatch isent full and thats the problem.
-              <text>{location}</text>
-            )
-          })}
-
-        </div>
-      </div>
-       */}
+      {timeTable.map(departure => {
+        if (timeTable.length > 0) 
+        {
+          return (<>
+            <div className="departure-card" onClick={() => onClickDepCard()} style={{ display: 'block', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius: "1px", marginLeft: "150px", marginRight: "150px" }}>
+              <h3>Från : {from} - Till : {to}</h3>
+              <h3>Tid : {departure['startHour'] * 100}</h3>
 
 
-      <div style={{ display: "flex", flexDirection: "column" }}>
+              {route.map(item => {
+                let stations = new Array();
+
+                item.station.forEach(element => {
+                  stations.push(element['stationName'] + ",");
+                });
+
+                return (<>
+                  <h3>Via {item['routeName']}</h3>
+                  {/* <h3 className="departure-stations">Path : {stations}</h3> */}
+                </>
+                )
+              })
+              }
+
+              <h3>Byten : {route.length - 1}</h3>
+
+            </div>
+          </>
+          )
+        }
+        else {
+          <h3>Inga avgångar</h3>
+        }
+      })
+      }
+
+      {/* Depature cards , what contains the departure elements*/}
+
+
+      {/* Debug area */}
+      {/* <div style={{ display: "flex", flexDirection: "column" }}>
        <h3 style={{color: "red"}}>Debug panel</h3>
 
 
@@ -223,7 +322,9 @@ export default function Booking() {
         })
         }
 
-      </div>
+      </div> */}
+
+
     </div>
   )
 }

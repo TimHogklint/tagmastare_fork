@@ -22,6 +22,18 @@ GET http://localhost:3000/api/getUniqueStations
 
 ###
 
+// Currently timetables only exist for "Göteborg C - Malmö Hyllie (via Malmö C)"
+// Above has four departure dates. I will programtically add depatures on all dates
+// if a timetable is not found.
+GET http://localhost:3000/api/getTimeTableByRouteId/6336cedf4ee5294617aea15e
+
+###
+
+// So if this gets called it will be null and I will have put in some programatically 
+// where they are lacking. If null , just append morning, midday, evening. So we get 
+// multiple departures when user selects from/to - and not just one.
+GET http://localhost:3000/api/getTimeTableByRouteId/6336cd064ee5294617aea158
+
 
 
 
