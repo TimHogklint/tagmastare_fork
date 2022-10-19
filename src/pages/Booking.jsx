@@ -3,10 +3,12 @@ import { json, Link } from "react-router-dom";
 import PlusMinus from "../components/PlusMins";
 import TicketTravelers from "../components/Travelers";
 import { Button } from "react-bootstrap";
-
-
+import { useNavigate } from 'react-router-dom'
+import store from '../functions/localstorage'
 
 export default function Booking() {
+
+  const navigate = useNavigate()
 
   const [locations, setLocations] = useState([]);
   const [locationMatch, setLocationMatch] = useState([]);
@@ -78,6 +80,7 @@ export default function Booking() {
     updateSearch(from, setName);
   }
 
+  // Lifted from the internet /Tim.
   function toHoursAndMinutes(totalMinutes) {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
@@ -206,8 +209,32 @@ export default function Booking() {
   const [dd_from_isOpen, dd_from_setIsOpen] = useState(false);
   const [dd_to_isOpen, dd_to_setIsOpen] = useState(false);
 
-  function onClickDepCard() {
-    console.log("Clicked departure card")
+  // Sends our data from timetable and route to local storage so we can use it on seat-picker page.
+  function onClickDepCard(timeTableData , routeData) {
+    console.log("Clicked departure card");
+
+    store.timeTable = timeTableData;
+    store.routeData = routeData;
+
+    // Just for my own sanity Im picking out a few things I especially 
+    // want to show on seat picking page. Just to show that data is indeed stored.
+    store.originRoute = routeData[0]['routeName'];
+
+    // Meanwhile I could have just read "from" , "to" - I rather use the data structure 
+    // that was created in route as it would be very confusing to debug. 
+
+    // start location
+    store.originStation = routeData[0]['station'][0]['stationName'];
+
+    // end destionation 
+    let lastRouteIndex = (Object.keys(routeData).length- 1) ;
+
+    let lastIndex =  routeData[lastRouteIndex]['station'].length-1;
+    store.destinationStation = routeData[lastRouteIndex]['station'][lastIndex]['stationName'];
+
+    store.save();
+
+    navigate("/seat-booking")
   }
 
   return (
@@ -285,12 +312,12 @@ export default function Booking() {
           </div>
         </div>
       
-     
-
       {/* Hej patrik , inför sprint review så lägger jag till en länk till payment sidan här 
         Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
       <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
 
+      {/* <br></br> */}
+      {/* <Link className="temp-link-seatpick" to="/seat-booking">Temp goto seat-picker</Link> */}
 
       {timeTable.map(departure => {
         if (timeTable.length > 0) {
@@ -298,7 +325,7 @@ export default function Booking() {
           let routeTime = getRouteTimeOffsets(departure, route[0]);
 
           return (<>
-            <div className="departure-card" onClick={() => onClickDepCard()} style={{ display: 'block', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius: "1px", marginLeft: "150px", marginRight: "150px" }}>
+            <div className="departure-card" onClick={() => onClickDepCard(timeTable,route)} style={{ display: 'block', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius: "1px", marginLeft: "150px", marginRight: "150px" }}>
               <h3>Från : {from} - Till : {to}</h3>
               <h3>Tid : {routeTime.arrivalTime} - Avgång : {routeTime.departTime} </h3>
 
