@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { json, Link } from "react-router-dom";
 import PlusMinus from "../components/PlusMins";
 
 
@@ -67,6 +67,41 @@ export default function Booking() {
   function handleToLocation(setName) {
     setTo(setName);
     updateSearch(from, setName);
+  }
+
+  // Handle a single routes offsets.
+  function getRouteTimeOffsets(departure,routeElement)
+  {
+
+    // <h3>Tid : {locationTime} - Avgång : {locationTime+departureOffset} </h3>
+
+    let startDeparture = departure['startHour'] * 100;
+    // Origin offset - first index of our route path. Minutest from start
+    let arrivalMin = routeElement['station'][0]['arrivalOffset'];
+    // When train leaves.
+    let departureMin = routeElement['station'][0]['departureOffset'];
+
+    let departureOffset = departureMin - arrivalMin;
+
+    let locationTime = startDeparture += arrivalMin;
+
+    return ({locationTime, departureOffset})
+  }
+
+  // Format time value to a string.
+  function timeToFormat(time){
+
+    let timeFormat = JSON.stringify(time);
+    console.log("TIME LENGHT : " + timeFormat.length);
+
+    if(timeFormat.length < 4){
+      timeFormat = ("0"+timeFormat);
+    }
+
+    // finally add the : between hh:mm
+    var timeFormatted = timeFormat.slice(0, 2) + ":" + timeFormat.slice(2);
+
+    return timeFormatted
   }
 
   // get routes search timetables aswell.
@@ -265,11 +300,16 @@ export default function Booking() {
       {timeTable.map(departure => {
         if (timeTable.length > 0) 
         {
+          
+          let routeTime = getRouteTimeOffsets(departure,route[0]);
+
+          let formatArrival  = timeToFormat( routeTime.locationTime);
+          let formatDeparture =  timeToFormat( (routeTime.locationTime + routeTime.departureOffset));
+
           return (<>
             <div className="departure-card" onClick={() => onClickDepCard()} style={{ display: 'block', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius: "1px", marginLeft: "150px", marginRight: "150px" }}>
               <h3>Från : {from} - Till : {to}</h3>
-              <h3>Tid : {departure['startHour'] * 100}</h3>
-
+              <h3>Tid : {formatArrival} - Avgång : {formatDeparture} </h3>
 
               {route.map(item => {
                 let stations = new Array();
@@ -278,8 +318,9 @@ export default function Booking() {
                   stations.push(element['stationName'] + ",");
                 });
 
+
                 return (<>
-                  <h3>Via {item['routeName']}</h3>
+                  <h3>Linje {item['routeName']}</h3>
                   {/* <h3 className="departure-stations">Path : {stations}</h3> */}
                 </>
                 )
