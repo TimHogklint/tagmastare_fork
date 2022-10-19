@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { json, Link } from "react-router-dom";
 import PlusMinus from "../components/PlusMins";
+import TicketTravelers from "../components/Travelers";
+import { Button } from "react-bootstrap";
 
 
 
@@ -13,12 +15,19 @@ export default function Booking() {
   let [route, setRoute] = useState([]);
   // Used in concert with above to print how many departures there are that day.
   let [timeTable, setTimeTable] = useState([]);
+  const [travelerArray, setTravelerArr] = useState([]);
 
   // If I had time I would have created a dropdown 
   // component for these. /Tim 
   const [from, setFrom] = useState([]);
   // second dropdown list
   const [to, setTo] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+
+    }
+    fetchData();
+  }, [travelerArray]);
 
   useEffect(() => {
     const loadLocations = async () => {
@@ -250,30 +259,13 @@ export default function Booking() {
             </div>
 
             <input className="datefield" type="date"></input>
-            + lägg till återresa
-          </div>
+           
+          </div> <TicketTravelers
+              setTravelerArr={setTravelerArr}
+              travelerArray={travelerArray}
+            /> 
 
-          <div className="ticketcontainer">
-            <div className="ticketamounts">
-              <div className="travelers">
-                Vuxen
-                <PlusMinus traveler="Vuxen" />
-              </div>
-              <div className="travelers">
-                Barn/Ungdom
-                <PlusMinus traveler="Bu" />
-
-              </div>
-              <div className="travelers">
-                Student
-                <PlusMinus traveler="Student" />
-
-              </div>
-              <div className="travelers">
-                Pensionär <PlusMinus traveler="Pensioner" />
-
-              </div>
-            </div>
+         
 
             {/*<div className="ticketbuttons">
                
@@ -284,10 +276,8 @@ export default function Booking() {
             </div>*/}
           </div>
         </div>
-      </div>
-      <div className="button">
-        <button className="srbutton">Sök Resa</button>
-      </div>
+      
+     
 
       {/* Hej patrik , inför sprint review så lägger jag till en länk till payment sidan här 
         Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
@@ -357,7 +347,10 @@ export default function Booking() {
         }
 
       </div> */}
-
+ <div className="button">
+        <Button className="srbutton">Sök Resa</Button>
+      </div>
+      
 
     </div>
   )

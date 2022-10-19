@@ -48,15 +48,6 @@
 
 }
 
-/*.ticketbuttons {
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  margin-left: 25px;
-  min-height: 48px;
-    min-width: 48px;
-    margin-left: auto;
-}*/
 
 .button {
   display: flex;
@@ -67,7 +58,7 @@
   background-color: rgba(197, 187, 102, 0.9);
   border: none;
   padding: 10px;
-  width: 200px;
+  width: 150px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
