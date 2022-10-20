@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { json, Link } from "react-router-dom";
 import PlusMinus from "../components/PlusMins";
-
-
+import TicketTravelers from "../components/Travelers";
+import { Button } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom'
+import store from '../functions/localstorage'
 
 export default function Booking() {
+
+  const navigate = useNavigate()
 
   const [locations, setLocations] = useState([]);
   const [locationMatch, setLocationMatch] = useState([]);
@@ -13,12 +17,19 @@ export default function Booking() {
   let [route, setRoute] = useState([]);
   // Used in concert with above to print how many departures there are that day.
   let [timeTable, setTimeTable] = useState([]);
+  const [travelerArray, setTravelerArr] = useState([]);
 
   // If I had time I would have created a dropdown 
   // component for these. /Tim 
   const [from, setFrom] = useState([]);
   // second dropdown list
   const [to, setTo] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+
+    }
+    fetchData();
+  }, [travelerArray]);
 
   useEffect(() => {
     const loadLocations = async () => {
@@ -67,6 +78,47 @@ export default function Booking() {
   function handleToLocation(setName) {
     setTo(setName);
     updateSearch(from, setName);
+  }
+
+  // Lifted from the internet /Tim.
+  function toHoursAndMinutes(totalMinutes) {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return { hours, minutes };
+  }
+
+  // Handle a single routes offsets.
+  function getRouteTimeOffsets(departure, routeElement) 
+  {
+    // arrival time.
+
+    let startDeparture = departure['startHour'];
+
+    let arrivalMin = routeElement['station'][0]['arrivalOffset'];
+
+    let arrTime = toHoursAndMinutes(startDeparture * 60 + arrivalMin);
+
+    if(arrTime.hours >= 24){
+      arrTime.hours = arrTime.hours - 24;
+    }
+
+    let arrivalTime =  (arrTime.hours + ":" + arrTime.minutes);
+
+    // departure time
+
+    let departureMin = routeElement['station'][0]['departureOffset'];
+
+    let offset = departureMin - arrivalMin; // diffrence.
+
+    let destTime = toHoursAndMinutes(startDeparture * 60 + (arrivalMin+offset));
+    if(destTime.hours >= 24){
+      destTime.hours = destTime.hours - 24;
+    }
+
+    let departTime =  (destTime.hours + ":" + destTime.minutes);
+
+
+    return ({ arrivalTime, departTime })
   }
 
   // get routes search timetables aswell.
@@ -157,8 +209,32 @@ export default function Booking() {
   const [dd_from_isOpen, dd_from_setIsOpen] = useState(false);
   const [dd_to_isOpen, dd_to_setIsOpen] = useState(false);
 
-  function onClickDepCard() {
-    console.log("Clicked departure card")
+  // Sends our data from timetable and route to local storage so we can use it on seat-picker page.
+  function onClickDepCard(timeTableData , routeData) {
+    console.log("Clicked departure card");
+
+    store.timeTable = timeTableData;
+    store.routeData = routeData;
+
+    // Just for my own sanity Im picking out a few things I especially 
+    // want to show on seat picking page. Just to show that data is indeed stored.
+    store.originRoute = routeData[0]['routeName'];
+
+    // Meanwhile I could have just read "from" , "to" - I rather use the data structure 
+    // that was created in route as it would be very confusing to debug. 
+
+    // start location
+    store.originStation = routeData[0]['station'][0]['stationName'];
+
+    // end destionation 
+    let lastRouteIndex = (Object.keys(routeData).length- 1) ;
+
+    let lastIndex =  routeData[lastRouteIndex]['station'].length-1;
+    store.destinationStation = routeData[lastRouteIndex]['station'][lastIndex]['stationName'];
+
+    store.save();
+
+    navigate("/seat-booking")
   }
 
   return (
@@ -218,30 +294,13 @@ export default function Booking() {
             </div>
 
             <input className="datefield" type="date"></input>
-            + lägg till återresa
-          </div>
+           
+          </div> <TicketTravelers
+              setTravelerArr={setTravelerArr}
+              travelerArray={travelerArray}
+            /> 
 
-          <div className="ticketcontainer">
-            <div className="ticketamounts">
-              <div className="travelers">
-                Vuxen
-                <PlusMinus traveler="Vuxen" />
-              </div>
-              <div className="travelers">
-                Barn/Ungdom
-                <PlusMinus traveler="Bu" />
-
-              </div>
-              <div className="travelers">
-                Student
-                <PlusMinus traveler="Student" />
-
-              </div>
-              <div className="travelers">
-                Pensionär <PlusMinus traveler="Pensioner" />
-
-              </div>
-            </div>
+         
 
             {/*<div className="ticketbuttons">
                
@@ -252,24 +311,23 @@ export default function Booking() {
             </div>*/}
           </div>
         </div>
-      </div>
-      <div className="button">
-        <button className="srbutton">Sök Resa</button>
-      </div>
+      
+     
 
-      {/* Hej patrik , inför sprint review så lägger jag till en länk till payment sidan här 
-        Jag antar att vi kommer slussas är ifrån efter rutt funnits. Tim  */}
-      <Link className="temp-pay-link" to="/payment">Temp goto payment</Link>
-
+     
+      {/* <Link className="temp-pay-link" to="/payment">Temp goto payment</Link> */}
+      {/* <br></br> */}
+      {/* <Link className="temp-link-seatpick" to="/seat-booking">Temp goto seat-picker</Link> */}
 
       {timeTable.map(departure => {
-        if (timeTable.length > 0) 
-        {
-          return (<>
-            <div className="departure-card" onClick={() => onClickDepCard()} style={{ display: 'block', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius: "1px", marginLeft: "150px", marginRight: "150px" }}>
-              <h3>Från : {from} - Till : {to}</h3>
-              <h3>Tid : {departure['startHour'] * 100}</h3>
+        if (timeTable.length > 0) {
 
+          let routeTime = getRouteTimeOffsets(departure, route[0]);
+
+          return (<>
+            <div className="departure-card" onClick={() => onClickDepCard(timeTable,route)} style={{ display: 'block', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', outline: "dashed 1px black", borderRadius: "1px", marginLeft: "150px", marginRight: "150px" }}>
+              <h3>Från : {from} - Till : {to}</h3>
+              <h3>Tid : {routeTime.arrivalTime} - Avgång : {routeTime.departTime} </h3>
 
               {route.map(item => {
                 let stations = new Array();
@@ -278,8 +336,9 @@ export default function Booking() {
                   stations.push(element['stationName'] + ",");
                 });
 
+
                 return (<>
-                  <h3>Via {item['routeName']}</h3>
+                  <h3>Linje {item['routeName']}</h3>
                   {/* <h3 className="departure-stations">Path : {stations}</h3> */}
                 </>
                 )
@@ -323,7 +382,6 @@ export default function Booking() {
         }
 
       </div> */}
-
 
     </div>
   )

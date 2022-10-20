@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from '../components/Button';
+import { Form } from "react-bootstrap";
 
 // Icons
 //
@@ -12,8 +12,8 @@ import { ReactComponent as VisaIc } from '../components/icons/visa.svg';
 import { ReactComponent as MasterIc } from '../components/icons/mastercard.svg';
 import { ReactComponent as SwishIc } from '../components/icons/swishlogo.svg';
 
-// Primitives
-import { ReactComponent as Ellipse } from '../components/icons/primitives/Ellipse_3.svg';
+
+
 
 export default function Payment()
 {
@@ -23,7 +23,7 @@ export default function Payment()
   // Specialized input handlers.
   const [phone_fname, phone_setFname] = useState("")
   const [cc_fname, cc_setFname] = useState("")
-  const [cc_expDate, cc_setExpDate] = useState("")
+  const [cc_expDate, cc_setExpDate,kort_fname] = useState("")
   const [cc_CVC, cc_setCVC] = useState("")
   //Swish , abit redundant as I have a phone above;
   const [swish_fname, swish_setFname] = useState("")
@@ -87,7 +87,10 @@ const cardCVC_handleChange = e => {
       [$1, $2, $3, $4].filter(group => !!group).join(' ')
     ));
   }
-
+  const kort_handleChange = e => {
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    swish_setFname(formatPhoneNumber(formattedPhoneNumber))
+  }
   // In the swish input I use this method to make sure input is valid.
   const swish_handleChange = e => {
     const formattedPhoneNumber = formatPhoneNumber(e.target.value);
@@ -147,21 +150,24 @@ const cardCVC_handleChange = e => {
       <input id="inputfield" placeholder="Mobil"autocomplete="off" onChange={(e) => phone_handleChange(e)} value={phone_fname}/>
     
       <div className="creditcard-menu" >
-      <h4>Betalsätt</h4>
+          <h4>Betalsätt</h4>
+          {["radio"].map((type) => (
+                <div key={`${type}`} className="mb-3 custom-label">
         
       {/* Region Kort typ - dropdown list ?*/}
       {/* Would be nice if drop down fill the "Kort" with selected choice.*/}
-      <div className="card-dropdown-box">
+      <div className="cardInputBox">
       <div className="visa1Icon"><VisaIc/></div>
       <div className="mastercard2019Logo1Icon"><MasterIc/></div>
           
         {/* I want icons to show up next to the cc-choices */}
-        <select className="kortDiv">
-          <option value="cc-mastercard">MasterCard</option>
-          <option value="cc-visa">Visa</option>
-        </select>
+         <div className="kortDiv">
+            <Form.Check className='kortInput' label='Kort' onChange={(e) => kort_handleChange(e)} value={kort_fname}  id={`${type}-kort`} name="group1"
+                    type={type}/>
+          </div> 
+        
 
-      <div className="cc_ellipseIcon"><Ellipse/></div>
+      
       </div>
       {/* RegionEnd */}
       
@@ -173,16 +179,22 @@ const cardCVC_handleChange = e => {
       <input className="cVCDiv" placeholder='CVC' value={cc_CVC} onChange={cardCVC_handleChange}></input>
       <div className="vertical-divider"></div> {/* lineIcon */}
         </div>
-      {/* RegionEnd */}
+          {/* RegionEnd */}
+           
+                 
+              
 
       {/* Region Swish - details entry ?*/}
       <div className="swish_frameDiv">
       <div className="swish_swishLogo11"><SwishIc/></div>
           <div className="swish_swishInputBox">
-            <input className='swishInput' placeholder='Swish' onChange={(e) => swish_handleChange(e)} value={swish_fname}></input>
-          </div>
-      <div className="swish_ellipseIcon"><Ellipse/></div>
-      </div>
+            <Form.Check className='swishInput' label='Swish' onChange={(e) => swish_handleChange(e)} value={swish_fname} name="group1"
+                    type={type}  id={`${type}-kort`}/>
+          </div> 
+      
+          </div>  </div>
+              ))}
+          
       {/* RegionEnd */}
         
 
