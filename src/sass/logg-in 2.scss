@@ -1,0 +1,34 @@
+.login-page,
+.register-page,
+.get-ticket-page {
+  display: flex; 
+  flex-direction: column;
+  font-family: 'inter';
+}
+
+.login-section,
+.login-form,
+.register-section,
+.register-form,
+.get-ticket-section,
+.ticket-form {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.user-image {
+  height: 250px; 
+  width: 250px;
+  margin-bottom: 40px;
+}
+
+.logg-in-button {
+  font-size: 170%;
+}
+
+.button-link {
+  text-decoration: none;
+  color: black;
+}
