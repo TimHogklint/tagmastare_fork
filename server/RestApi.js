@@ -239,76 +239,50 @@ module.exports = class RestApi {
 
       return bestRoute;
     } 
-    // We need to search deeper
     else 
     {
       // clean
       bestRoute = new Array();
       console.log("ELSE SEARCH");
 
-      // // test all origin on each destination
-      // // while / should only run if current route dont have our destination.
-      //  let swapLocation = this.findClosestSwap(originList[0],destList[0],origin);
-      // console.log("Swap location : " + swapLocation); // at index etc.
-      let destCount = destList.length -1;
-      let bestLength = 99;
+      // The way I see it I have to search both 
+      // origin and destination list for a shared station. 
 
-      while(destCount > -1)
+      for (let s = 0; s < originList.length; s++) 
       {
-        // - Find shared station
-        for(let x = 0; x < originList.length ; x++)
+        let originStations = originList[s].station;
+
+
+        for(let x = 0; x < destList.length; x++)
         {
+          let destStations = originList[s].station;
 
-          let listA = originList[x];
-          let listB = destList[destCount];
+          // both those lists.
 
-          let path = this.findPath(listA,listB,origin,destination);
-
-          // I only get back stations :/ I dont want that.
-          // should be two "routes" with pruned stations
-          
-          if(path != null)
+          for(let a = 0; a < originStations.length; a++)
           {
-            // Should always be 2 origin route + destination route 
-            // with clipped stations.
-            if(path.length == 2)
+            let originStation = originStations[a]['stationName'];
+
+            for(let b = 0; b < destStations.length; b++)
             {
-              // let checkIndexDebug = 1;
+              let destStation = destStations[b]['stationName'];
 
-              // console.log("##_>#" + path[checkIndexDebug]['routeName']);
-
-              // let rTest = path[checkIndexDebug];
-  
-              // for(let s = 0; s < rTest.station.length; s++)
-              // console.log("Station -> " + rTest.station[s]['stationName']);
-
-
-              let totalLenght = (path[0].station.length + path[1].station.length);
-
-              if(totalLenght < bestLength)
+              if(originStation == destStation)
               {
-                bestRoute = new Array();
-                bestRoute = path;
+                  bestRoute.push(originList[s]);
+                  bestRoute.push(destList[x]);
 
-                bestLength = totalLenght;
+                  console.log("I finished");
+                  return bestRoute;
               }
-            }
-            else
-            {
-              // if this pops , then things are bad.
-              console.log("path was not null but did not contain origin/dest list");
             }
           }
         }
-
-        // - Check if this path shorter then previous
-        destCount -= 1;
       }
+   
 
-      // at this point bestRoute should be filled with 
-
-      console.log("Jump route end");
-      return bestRoute;
+      console.log("something went wrong");
+      return null;
     }
 
     // This area is unreachable.
